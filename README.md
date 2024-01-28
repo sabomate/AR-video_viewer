@@ -1,6 +1,6 @@
 # AR-video_viewer
 
-前身のARバムめーかー( https://github.com/minari515/Hack-U )を踏襲して，シームレスな動画閲覧を目指したウェブサービス
+前身の AR バムめーかー( https://github.com/minari515/Hack-U )を踏襲して，シームレスな動画閲覧を目指したウェブサービス
 
 うまくいくかは全然わかりません
 
@@ -8,52 +8,69 @@
 
 とりあえず実行したコマンドとか書いていく
 
-## firebase接続のための設定
+## firebase 接続のための設定
 
-firebase CLIのインストール
+firebase CLI のインストール
+
 ```
 npm install -g firebase-tools
 ```
 
-firebaseにログインしてCLIのテスト（ウェブサイトが起動するので許可）
+firebase にログインして CLI のテスト（ウェブサイトが起動するので許可）
+
 ```
 firebase Login
 ```
 
-firebaseプロジェクト一覧の確認
+firebase プロジェクト一覧の確認
+
 ```
 firebase projects:list
 ```
 
-## firebase hostionの設定
+## firebase hostion の設定
 
-firebaseの確立？
+firebase の確立？
+
 ```
 firebase init
 ```
+
 その後は…
+
 - 指定のプロジェクトを選ぶ
 - 任意の設定を選ぶ
 
-## github actionについて
-それぞれの設定が終わると，github actionの設定を行う
-基本的に```firebae init```後，github action設定を選択すると勝手に進めてくれる
+## build について
 
-githubに追加するfirebase Tokenの取得方法
-```
-firebase login:ci
-```
+github action と連携するためにビルド環境をつくる
 
-## buildについて
-
-github actionと連携するためにビルド環境をつくる
 ```
 npm init
 ```
 
-わからんからwebpackのインストール
+わからんから webpack のインストール
+
 ```
 npm install webpack --save-dev
 npm install --save-dev webpack-cli
 ```
-webpack.config.jsを作成（内容はコピペ）
+
+webpack.config.js を作成（内容はコピペ）
+
+## github action について
+
+それぞれの設定が終えたら，github action の設定を行う
+基本的に`firebae init`後，github action 設定を選択すると勝手に進めてくれる
+
+https://tm-progapp.hatenablog.com/entry/2023/02/05/133737
+
+これを参考にしながら
+
+- IAM API を有効にする
+- サービスアカウントを作成する
+- 権限を割り当てる（割り当て過ぎらしいけど今回はオーナーを割り当てた）
+- ID を発行する（JSON）
+- アカウント ID をコピペする
+
+この辺を行ったらなんとかできた
