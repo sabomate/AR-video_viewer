@@ -12,9 +12,20 @@
       <!-- マーカートラッキング設定 -->
       <!-- hiroマーカーに反応し、タグ内の3dモデルを表示 -->
       <a-marker preset="hiro">
-        <!-- 直方体呼び出し -->
-        <a-box position="0 0 0" scale="1 1 1" color="red"></a-box
-      ></a-marker>
+        <!-- <a-box position="0 0 0" scale="1 1 1" color="red"></a-box> -->
+        <!-- <a-video id="video_sample" src="https://www2.yoslab.net/~minari/sample/sample2.mp4" loop="true"></a-video> -->
+        <a-video src="#video_sample" position="0 -2 0" rotation = "-90 0 0"width="1.8" height="3.3"></a-video>
+      </a-marker>
+
+      <a-assets timeout="30000">
+        <video id="video_sample" src="https://www2.yoslab.net/~minari/sample/taga.mp4" ></video>
+      </a-assets>
     </a-scene>
+    <script>
+      window.addEventListener("click", ()=>{
+        const video = document.getElementById("video_sample")
+        video.play()
+      })
+    </script>
   </body>
 </html>
