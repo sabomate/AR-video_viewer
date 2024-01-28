@@ -56,3 +56,4 @@ npm init
 npm install webpack --save-dev
 npm install --save-dev webpack-cli
 ```
+webpack.config.jsを作成（内容はコピペ）
