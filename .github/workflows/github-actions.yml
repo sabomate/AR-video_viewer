@@ -24,4 +24,4 @@ jobs:
       - name: Deploy Firebase Hosting
         run: |
           npm install -g firebase-tools
-          firebase deploy --project={GCPのプロジェクトID} --only=hosting
+          firebase deploy --project={ar-videoviewer} --only=hosting
