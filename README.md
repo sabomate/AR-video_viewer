@@ -50,3 +50,9 @@ github actionと連携するためにビルド環境をつくる
 ```
 npm init
 ```
+
+わからんからwebpackのインストール
+```
+npm install webpack --save-dev
+npm install --save-dev webpack-cli
+```
