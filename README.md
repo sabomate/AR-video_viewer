@@ -43,3 +43,10 @@ githubに追加するfirebase Tokenの取得方法
 ```
 firebase login:ci
 ```
+
+## buildについて
+
+github actionと連携するためにビルド環境をつくる
+```
+npm init
+```
