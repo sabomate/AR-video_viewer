@@ -1,9 +1,8 @@
 {
   "name": "ar-video_viewer",
   "version": "1.0.0",
-  "description": "前身のARバムめーかー( https://github.com/minari515/Hack-U )を踏襲して，シームレスな動画閲覧を目指したウェブサービス",
-  "main": "index.js",
   "scripts": {
+    "build": "webpack --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
