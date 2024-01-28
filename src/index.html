@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>サンプル</title>
+    <meta http-equiv="content-type" charset="utf-8" />
+    <!-- A-FrameとAR.jsのCDN -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   </head>
   <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <h2>おめでとうやで！</h2>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <!-- シーン生成、AR.js呼び出し -->
+    <a-scene embedded arjs>
+      <!-- マーカートラッキング設定 -->
+      <!-- hiroマーカーに反応し、タグ内の3dモデルを表示 -->
+      <a-marker preset="hiro">
+        <!-- 直方体呼び出し -->
+        <a-box position="0 0 0" scale="1 1 1" color="red"></a-box
+      ></a-marker>
+    </a-scene>
   </body>
 </html>
