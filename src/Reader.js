@@ -1,6 +1,4 @@
-// Reader.js
-
-import { storage } from "./firebase";
+import { storage } from "./firebase.js";
 
 // Firebase Storageから動画をダウンロード
 const videoRef = storage.ref().child('videos/example.mp4'); // パスは保存した動画のパスに変更
