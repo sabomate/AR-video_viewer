@@ -1,6 +1,7 @@
 # AR-video_viewer
 
-前身の AR バムめーかー( https://github.com/minari515/Hack-U )を踏襲して，シームレスな動画閲覧を目指したウェブサービス
+前身の AR バムめーかー( https://github.com/minari515/Hack-U )を踏襲して，
+シームレスな動画閲覧を目指したウェブサービス
 
 うまくいくかは全然わかりません
 
@@ -74,3 +75,13 @@ https://tm-progapp.hatenablog.com/entry/2023/02/05/133737
 - アカウント ID をコピペする
 
 この辺を行ったらなんとかできた
+
+# 始め方！！まずすること！！！
+
+```
+npm install -g firebase-tools
+firebase login
+firebase deploy
+```
+
+これでいけたけどログインのとこで俺のアカウント選択してるからできてるだけ説あるなぁ
