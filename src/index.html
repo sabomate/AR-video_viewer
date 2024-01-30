@@ -34,32 +34,22 @@
     </div>
     <!-- シーン生成、AR.js呼び出し -->
     <a-scene
-    vr-mode-ui="enabled: false;"
-    renderer="logarithmicDepthBuffer: true;"
-    embedded
-    arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-  >      <!-- マーカートラッキング設定 -->
-      <!-- hiroマーカーに反応し、タグ内の3dモデルを表示 -->
-      <a-nft
-      type="nft"
-      url="./descriptors/Sabomate"
-      smooth="true"
-      smoothCount="10"
-      smoothTolerance=".01"
-      smoothThreshold="5"
+      vr-mode-ui="enabled: false;"
+      renderer="logarithmicDepthBuffer: true; precision: medium;"
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
     >
-      <!-- <a-entity
-        gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
-        scale="5 5 5"
-        position="50 150 0"
+      <a-nft
+        type="nft"  
+        url="/src/descriptors/Yoslab"
+        smooth="true"
+        smoothCount="10"
+        smoothTolerance=".01"
+        smoothThreshold="5"
       >
-      </a-entity> -->
-      <a-video src="#video_sample" position="0 -2 0" rotation = "-90 0 0"width="1.8" height="3.3"></a-video>
-    </a-nft>
-
-      <!-- <a-marker preset="hiro">
-        <a-video src="#video_sample" position="0 -2 0" rotation = "-90 0 0"width="1.8" height="3.3"></a-video>
-      </a-marker> -->
+        <a-video src="#video_sample" position="0 -2 0" rotation = "-90 0 0"width="18" height="33"></a-video>
+      </a-nft>
+      
 
       <a-assets timeout="30000">
         <video id="video_sample" src="https://www2.yoslab.net/~minari/sample/taga.mp4" ></video>
