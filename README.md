@@ -20,7 +20,7 @@ npm install -g firebase-tools
 firebase にログインして CLI のテスト（ウェブサイトが起動するので許可）
 
 ```
-firebase Login
+firebase login
 ```
 
 firebase プロジェクト一覧の確認
