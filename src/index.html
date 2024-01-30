@@ -12,16 +12,24 @@
       <!-- マーカートラッキング設定 -->
       <!-- hiroマーカーに反応し、タグ内の3dモデルを表示 -->
       <a-marker preset="hiro">
-        <a-video src="#video_sample" position="0 -2 0" rotation = "-90 0 0"width="1.8" height="3.3"></a-video>
+        <a-video id="arVideo" src="#video_sample" position="0 -2 0" rotation = "-90 0 0"width="1.8" height="3.3" visible="false"></a-video>
+        <a-image id="thumbnailImg" src="#thumbnail" position="0 -2 0" rotation="-90 0 0" width="1.8" height="1.8" visible="true"></a-image>
       </a-marker>
 
       <a-assets timeout="30000">
         <video id="video_sample" src="https://www2.yoslab.net/~minari/sample/taga.mp4" ></video>
+        <image id="thumbnail" src="https://www2.yoslab.net/~minari/sample/start.png"></image>
       </a-assets>
     </a-scene>
     <script>
       window.addEventListener("click", ()=>{
         const video = document.getElementById("video_sample")
+        const arVideo = document.getElementById("arVideo")
+        const thumbnailImg = document.getElementById("thumbnailImg")
+
+        thumbnailImg.setAttribute("visible", false)
+        arVideo.setAttribute("visible", true)
+
         video.play()
       })
     </script>
