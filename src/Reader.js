@@ -1,4 +1,4 @@
-import { storage, ref,getDownloadURL } from "./firebase.js";
+import { storage, ref, getDownloadURL } from "./firebase.js";
 
 // Firebase Storageから動画をダウンロード
 const videoRef = ref(storage, 'videos/taga.mp4'); // パスは保存した動画のパスに変更
