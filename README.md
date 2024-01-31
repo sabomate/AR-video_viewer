@@ -23,6 +23,11 @@ firebase にログインして CLI のテスト（ウェブサイトが起動す
 firebase login
 ```
 
+deployなどで401エラーが出る場合は下記で再ログイン
+```
+firebase login --reauth
+```
+
 firebase プロジェクト一覧の確認
 
 ```
