@@ -1,7 +1,10 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="content-type" charset="utf-8" />
+    <title>AR-Viewer</title>
     <!-- A-FrameとAR.jsのCDN -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
@@ -10,28 +13,18 @@
     <!-- シーン生成、AR.js呼び出し -->
     <a-scene embedded arjs>
       <!-- マーカートラッキング設定 -->
-      <!-- hiroマーカーに反応し、タグ内の3dモデルを表示 -->
+      <!-- hiroマーカーに反応し、タグ内の3Dモデルを表示 -->
       <a-marker preset="hiro">
         <a-video id="arVideo" src="#video_sample" position="0 -2 0" rotation = "-90 0 0"width="1.8" height="3.3" visible="false"></a-video>
         <a-image id="thumbnailImg" src="#thumbnail" position="0 -2 0" rotation="-90 0 0" width="1.8" height="1.8" visible="true"></a-image>
       </a-marker>
 
       <a-assets timeout="30000">
-        <video id="video_sample" src="https://www2.yoslab.net/~minari/sample/taga.mp4" ></video>
-        <image id="thumbnail" src="https://www2.yoslab.net/~minari/sample/start.png"></image>
+        <video id="video_sample" crossorigin="anonymous"></video>
+        <image id="thumbnail" crossorigin="anonymous"></image>
       </a-assets>
     </a-scene>
-    <script>
-      window.addEventListener("click", ()=>{
-        const video = document.getElementById("video_sample")
-        const arVideo = document.getElementById("arVideo")
-        const thumbnailImg = document.getElementById("thumbnailImg")
-
-        thumbnailImg.setAttribute("visible", false)
-        arVideo.setAttribute("visible", true)
-
-        video.play()
-      })
-    </script>
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="Reader.js"></script>
   </body>
 </html>
