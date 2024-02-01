@@ -5,6 +5,9 @@
   <head>
     <meta http-equiv="content-type" charset="utf-8" />
     <title>AR-Viewer</title>
+    <!-- Firebaseの読み込み -->
+    <script type="module" src="firebase.js"></script> 
+    <script type="module" src="Reader.js"></script> 
     <!-- A-FrameとAR.jsのCDN -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
@@ -26,7 +29,7 @@
         font-size: 1.25em;
         color: white;
       }
-    </style>
+      </style>
   </head>
   <body>
     <div class="arjs-loader">
@@ -39,9 +42,9 @@
       embedded
       arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
     >
-      <a-nft
-        type="nft"  
-        url="/src/descriptors/Yoslab"
+    <a-nft
+        type="nft"
+        url="https://www2.yoslab.net/~minari/sample/Yoslab"
         smooth="true"
         smoothCount="10"
         smoothTolerance=".01"
@@ -56,8 +59,5 @@
       </a-assets>
     </a-scene>
 
-    <!-- ARReader.jsの読み込み -->
-    <script type="module" src="firebase.js"></script> 
-    <script type="module" src="Reader.js"></script> 
   </body>
 </html>
