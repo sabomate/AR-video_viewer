@@ -41,3 +41,34 @@
 .hidden {
   display: none;
 }
+/* 再生ボタン */
+.video_play {
+  cursor: pointer;
+  position: absolute;
+  width: 0.5em;
+  height: 0.5em;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 0.03em solid currentColor;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #333;
+  font-size: 200px;
+  z-index: 100;
+}
+
+.video_play::after {
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  transform: translateY(-50%);
+  width: 0px;
+  height: 0px;
+  border: 0.12em solid transparent;
+  border-left: 0.2em solid currentColor;
+  box-sizing: border-box;
+  content: "";
+  cursor: pointer;
+  pointer-events: none;
+}

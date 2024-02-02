@@ -17,9 +17,10 @@
     <div class="arjs-loader">
       <div>Loading, please wait...</div>
     </div>
-    <div style="text-align: center">
-      <input type="button" id="playVideBtn" class="hidden" value="動画再生" />
-      <input type="button" id="changeVideoBtn" class="hidden" value="次の動画" />
+    <div class="ui">
+      <!-- <button type="button" id="playVideBtn" value="ddd">サンプル</button> -->
+      <button type="button" id="playVideBtn" class="video_play hidden"></button>
+      <button type="button" id="changeVideoBtn" class="hidden" value="次の動画" >
     </div>
 
     <!-- シーン生成、AR.js呼び出し -->
@@ -57,10 +58,6 @@
         ></video>
       </a-assets>
     </a-scene>
-
-    <div style="position: fixed; bottom: 150px">
-      <input type="button" id="b1" value="change" />
-    </div>
 
     <script type="module" src="firebase.js"></script>
     <script type="module" src="Reader.js"></script>
