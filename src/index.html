@@ -54,11 +54,22 @@
       </a-nft>
       
 
+    <a-scene embedded arjs>
+      <!-- マーカートラッキング設定 -->
+      <a-marker preset="hiro">
+        <a-video id="arVideo_1" src="#video_sample_1" position="0 0 0" rotation="-90 0 0" width="1.8" height="3.3" visible="false"></a-video>
+        <a-video id="arVideo_2" src="#video_sample_2" position="0 0 0" rotation="-90 0 0" width="1.8" height="3.3" visible="false"></a-video>
+      </a-marker>
+  
       <a-assets timeout="30000">
-        <video id="video_sample" src="https://www2.yoslab.net/~minari/sample/taga.mp4" crossorigin="anonymous"></video>
+        <video id="video_sample_1" crossorigin="anonymous"></video>
+        <video id="video_sample_2" src="https://www2.yoslab.net/~minari/sample/taga.mp4" crossorigin="anonymous"></video>
       </a-assets>
+
     </a-scene>
+
     <script type="module" src="firebase.js"></script>
     <script type="module" src="Reader.js"></script>
+
   </body>
 </html>
