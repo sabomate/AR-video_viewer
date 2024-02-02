@@ -8,7 +8,7 @@ const videoPathArr = [
 ]
 
 // Firebase Storageから動画をダウンロード
-const video = document.getElementById('video_sample');
+const video = document.getElementById('arVideo');
 const videoUrlArr = []
 videoPathArr.forEach((path) => {
   const videoRef = ref(storage, path);
@@ -20,12 +20,15 @@ videoPathArr.forEach((path) => {
 });
 
 let videoIndex = 0;
+
+// 再生ボタン
 const  playVideBtn = document.getElementById('playVideBtn');
 playVideBtn.addEventListener('click', () => {
   console.log('playVideBtn click');
   video.play();
 });
 
+// 次の動画ボタン
 const  changeNextVideoBtn = document.getElementById('changeNextVideoBtn');
 changeNextVideoBtn.addEventListener('click', () => {
   videoIndex = (videoIndex + 1) % videoUrlArr.length;
@@ -34,6 +37,7 @@ changeNextVideoBtn.addEventListener('click', () => {
   video.play();
 });
 
+// 前の動画ボタン
 const  changePreviousVideoBtn = document.getElementById('changePreviousVideoBtn');
 changePreviousVideoBtn.addEventListener('click', () => {
   videoIndex = (videoIndex - 1 + videoUrlArr.length) % videoUrlArr.length;
@@ -41,6 +45,7 @@ changePreviousVideoBtn.addEventListener('click', () => {
   video.src = videoUrlArr[videoIndex];
   video.play();
 });
+
 
 const nft = document.getElementById('nft');
 // marker発見時のイベント
