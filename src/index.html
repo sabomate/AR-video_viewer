@@ -5,23 +5,30 @@
   <head>
     <meta http-equiv="content-type" charset="utf-8" />
     <title>AR-Viewer</title>
-    <!-- A-FrameとAR.jsのCDN -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   </head>
   <body>
-    <!-- シーン生成、AR.js呼び出し -->
-    <a-scene embedded arjs>
-      <!-- マーカートラッキング設定 -->
-      <!-- hiroマーカーに反応し、タグ内の3Dモデルを表示 -->
+    <a-scene>
       <a-marker preset="hiro">
-        <a-video id="arVideo" src="#video_sample" position="0 0 0" rotation = "-90 0 0"width="1.8" height="3.3" visible="false"></a-video>
-        <a-image id="thumbnailImg" src="#thumbnail" position="0 0 0" rotation="-90 0 0" width="1.8" height="1.8" visible="true"></a-image>
+        <a-video id="arVideo" src="#video_sample" position="0 1 -1.5" rotation = "0 0 10"width="1.8" height="3.3" visible="false"></a-video>
+        <a-text
+          id="thumbnailText"
+          value="卒業おめでとう！"
+          font="keifont-msdf.json"
+          font-image="keifont-msdf.png"
+          negate="false"
+          scale="2 2 1"
+          position="-1 2 -1.5"
+          color="#fc6c85">
+        </a-text>
+        <a-obj-model id="gift_box" position="0 1 -1.5" scale="0.3 0.3 0.3" rotation="0 -90 -5" src="#crate-obj" mtl="#crate-mtl"></a-obj-model>
       </a-marker>
       
       <a-assets timeout="30000">
+        <a-asset-item id="crate-obj" src="gift_box.obj"></a-asset-item>
+        <a-asset-item id="crate-mtl" src="gift_box.mtl"></a-asset-item>
         <video id="video_sample" crossorigin="anonymous"></video>
-        <img id="thumbnail" src="sample1.jpg"></img>
       </a-assets>
     </a-scene>
     <script type="module" src="firebase.js"></script>
