@@ -5,61 +5,72 @@
   <head>
     <meta http-equiv="content-type" charset="utf-8" />
     <title>AR-Viewer</title>
-    <!-- Firebaseの読み込み -->
-    <script type="module" src="firebase.js"></script> 
-    <script type="module" src="Reader.js"></script> 
     <!-- A-FrameとAR.jsのCDN -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-    <style>
-      .arjs-loader {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.8);
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .arjs-loader div {
-        text-align: center;
-        font-size: 1.25em;
-        color: white;
-      }
-      </style>
+    <!-- Firebaseの読み込み -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="Reader.js"></script>
+    <link rel="stylesheet" href="index.css" />
   </head>
-  <body>
+  <body style="margin: 0px; overflow: hidden">
     <div class="arjs-loader">
       <div>Loading, please wait...</div>
     </div>
+    <div style="text-align: center">
+      <input type="button" id="playVideBtn" class="hidden" value="動画再生" />
+      <input type="button" id="changeVideoBtn" class="hidden" value="次の動画" />
+    </div>
+
     <!-- シーン生成、AR.js呼び出し -->
     <a-scene
-    vr-mode-ui="enabled: false;"
-    renderer="logarithmicDepthBuffer: true; precision: medium;"
-    embedded
-    arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+      vr-mode-ui="enabled: false;"
+      renderer="logarithmicDepthBuffer: true; precision: medium;"
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
     >
-    <a-nft
-    type="nft"
-    url="https://www2.yoslab.net/~minari/sample/Yoslab"
-    smooth="true"
-    smoothCount="10"
-    smoothTolerance=".01"
-    smoothThreshold="5"
-    >
-        <a-video src="#video_sample" position="0 0 0" rotation = "-90 0 0"width="100" height="33"></a-video>
+      <!-- 再生ボタン -->
+      <a-nft
+        type="nft"
+        id = "nft"
+        url="https://www2.yoslab.net/~minari/sample/Yoslab"
+        smooth="true"
+        smoothCount="10"
+        smoothTolerance=".01"
+        smoothThreshold="5"
+        markerhandler
+      >
+        <a-video
+          src="#video_sample"
+          position="0 0 0"
+          rotation="-90 0 0"
+          width="100"
+          height="33"
+        ></a-video>
       </a-nft>
-      
-      <a-assets timeout="30000">
-        <video id="video_sample" src="https://www2.yoslab.net/~minari/sample/taga.mp4" crossorigin="anonymous"></video>
-      </a-assets>
 
+      <a-assets timeout="30000">
+        <video
+          id="video_sample"
+          src="https://www2.yoslab.net/~minari/sample/taga.mp4"
+          crossorigin="anonymous"
+        ></video>
+      </a-assets>
+    </a-scene>
+
+    <div style="position: fixed; bottom: 150px">
+      <input type="button" id="b1" value="change" />
+    </div>
 
     <script type="module" src="firebase.js"></script>
     <script type="module" src="Reader.js"></script>
 
+    <script>
+      // nftマーカーが読み込まれたときのイベント
+      window.addEventListener("arjs-nft-loaded", (event) => {
+        // Hide loading overlay
+        console.log("nft loaded");
+      });
+    </script>
   </body>
 </html>
