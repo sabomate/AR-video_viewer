@@ -3,7 +3,8 @@ import { storage, ref, getDownloadURL } from "./firebase.js";
 // 動画のパス
 const videoPathArr = [
   'videos/taga.mp4',
-  'videos/river.mp4'
+  'videos/river.mp4',
+  'videos/huji.mp4'
 ]
 
 // Firebase Storageから動画をダウンロード
@@ -24,10 +25,19 @@ playVideBtn.addEventListener('click', () => {
   console.log('playVideBtn click');
   video.play();
 });
-const  changeVideoBtn = document.getElementById('changeVideoBtn');
-changeVideoBtn.addEventListener('click', () => {
+
+const  changeNextVideoBtn = document.getElementById('changeNextVideoBtn');
+changeNextVideoBtn.addEventListener('click', () => {
   videoIndex = (videoIndex + 1) % videoUrlArr.length;
-  console.log('changeVideoBtn click' + videoIndex + ' ' + videoUrlArr[videoIndex]);
+  console.log('changeNextVideoBtn click' + videoIndex + ' ' + videoUrlArr[videoIndex]);
+  video.src = videoUrlArr[videoIndex];
+  video.play();
+});
+
+const  changePreviousVideoBtn = document.getElementById('changePreviousVideoBtn');
+changePreviousVideoBtn.addEventListener('click', () => {
+  videoIndex = (videoIndex - 1 + videoUrlArr.length) % videoUrlArr.length;
+  console.log('changePreviousVideoBtn click' + videoIndex + ' ' + videoUrlArr[videoIndex]);
   video.src = videoUrlArr[videoIndex];
   video.play();
 });
@@ -38,12 +48,14 @@ nft.addEventListener('markerFound', () => {
   console.log('nft markerFound');
   video.src = videoUrlArr[videoIndex];
   playVideBtn.classList.remove('hidden');
-  changeVideoBtn.classList.remove('hidden');
+  changeNextVideoBtn.classList.remove('hidden');
+  changePreviousVideoBtn.classList.remove('hidden');
 });
 
 // marker消失時のイベント
 nft.addEventListener('markerLost', () => {
   console.log('nft markerLost');
   playVideBtn.classList.add('hidden');
-  changeVideoBtn.classList.add('hidden');
+  changeNextVideoBtn.classList.add('hidden');
+  changePreviousVideoBtn.classList.add('hidden');
 });

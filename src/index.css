@@ -41,6 +41,15 @@
 .hidden {
   display: none;
 }
+
+.ui{
+  /* position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: aqua; */
+}
+
 /* 再生ボタン */
 .video_play {
   cursor: pointer;
@@ -71,4 +80,30 @@
   content: "";
   cursor: pointer;
   pointer-events: none;
+}
+
+/* 動画変更ボタン */
+.video_change{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  background: rgba(0, 0, 0, 0);
+  z-index: 100;
+}
+
+.video_change.left_btn{
+  right: 10px;
+  border-right: none;
+  border-left: 30px solid #333;
+  
+}
+
+.video_change.right_btn{
+  left: 10px;
+  border-left: none;
+  border-right: 30px solid #333;
 }
