@@ -5,13 +5,51 @@
   <head>
     <meta http-equiv="content-type" charset="utf-8" />
     <title>AR-Viewer</title>
+    <!-- Firebaseの読み込み -->
+    <script type="module" src="firebase.js"></script> 
+    <script type="module" src="Reader.js"></script> 
+    <!-- A-FrameとAR.jsのCDN -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <style>
+      .arjs-loader {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .arjs-loader div {
+        text-align: center;
+        font-size: 1.25em;
+        color: white;
+      }
+      </style>
   </head>
   <body>
-    <a-scene>
-      <a-marker preset="hiro">
-        <a-video id="arVideo" src="#video_sample" position="0 1 -1.5" rotation = "0 0 10"width="1.8" height="3.3" visible="false"></a-video>
+    <div class="arjs-loader">
+      <div>Loading, please wait...</div>
+    </div>
+    <!-- シーン生成、AR.js呼び出し -->
+    <a-scene
+      vr-mode-ui="enabled: false;"
+      renderer="logarithmicDepthBuffer: true; precision: medium;"
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+    >
+      <a-nft
+        type="nft"
+        url="https://www2.yoslab.net/~minari/sample/Yoslab"
+        smooth="true"
+        smoothCount="10"
+        smoothTolerance=".01"
+        smoothThreshold="5"
+      >
         <a-text
           id="thumbnailText"
           value="卒業おめでとう！"
@@ -23,15 +61,15 @@
           color="#fc6c85">
         </a-text>
         <a-obj-model id="gift_box" position="0 1 -1.5" scale="0.3 0.3 0.3" rotation="0 -90 -5" src="#crate-obj" mtl="#crate-mtl"></a-obj-model>
-      </a-marker>
-      
+        <a-video src="#video_sample" position="0 -2 0" rotation = "-90 0 0"width="18" height="33"></a-video>
+      </a-nft>
+
       <a-assets timeout="30000">
         <a-asset-item id="crate-obj" src="gift_box.obj"></a-asset-item>
         <a-asset-item id="crate-mtl" src="gift_box.mtl"></a-asset-item>
-        <video id="video_sample" crossorigin="anonymous"></video>
+        <video id="video_sample" crossorigin="anonymous"crossorigin="anonymous"></video>
       </a-assets>
     </a-scene>
-    <script type="module" src="firebase.js"></script>
-    <script type="module" src="Reader.js"></script>
+
   </body>
 </html>
