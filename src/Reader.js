@@ -20,10 +20,18 @@ videoPathArr.forEach((path) => {
 });
 
 let videoIndex = 0;
+let videoClickCount = 0;
 
 // 再生ボタン
 const  playVideBtn = document.getElementById('playVideBtn');
 playVideBtn.addEventListener('click', () => {
+  // 最初だけサムネイル要素の削除を実行
+  if (videoClickCount == 0){
+    document.getElementById("thumbnailText").setAttribute("visible", false)
+    document.getElementById("gift_box").setAttribute("visible", false)
+    document.getElementById("videoFrame").setAttribute("visible", true)
+  }
+  videoClickCount += 1;
   console.log('playVideBtn click');
   video.play();
 });
