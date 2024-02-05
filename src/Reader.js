@@ -1,23 +1,32 @@
-import { storage, ref, getDownloadURL } from "./firebase.js";
+import { storage, ref, getDownloadURL, listAll} from "./firebase.js";
 
-// 動画のパス
-const videoPathArr = [
-  'videos/taga.mp4',
-  'videos/river.mp4',
-  'videos/huji.mp4'
-]
+const video = document.getElementById('arVideo');
 
 // Firebase Storageから動画をダウンロード
-const video = document.getElementById('arVideo');
 const videoUrlArr = []
-videoPathArr.forEach((path) => {
-  const videoRef = ref(storage, path);
-  getDownloadURL(videoRef).then((url) => {
-    videoUrlArr.push(url);
+
+let url = new URL(window.location.href);
+// Debug用
+let grade = url.searchParams.get("grade");
+grade = (grade == null) ? 'M1' : grade;
+
+const listRef = ref(storage, 'videos/' + grade);
+listAll(listRef)
+  .then((res) => {
+    res.items.forEach((itemRef,index) => {
+      getDownloadURL(itemRef).then((url) => {
+        console.log(index + " " +url);
+        videoUrlArr.push(url);
+        if (index == 0){
+          video.src = url;
+        }
+      }).catch((error) => {
+        console.error(`動画のダウンロードに失敗しました: ${error}`);
+      });
+    });
   }).catch((error) => {
     console.error(`動画のダウンロードに失敗しました: ${error}`);
   });
-});
 
 let videoIndex = 0;
 let videoClickCount = 0;
@@ -53,7 +62,6 @@ changePreviousVideoBtn.addEventListener('click', () => {
   video.src = videoUrlArr[videoIndex];
   video.play();
 });
-
 
 const nft = document.getElementById('nft');
 // marker発見時のイベント
