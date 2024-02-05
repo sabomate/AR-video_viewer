@@ -1,5 +1,8 @@
 import { storage, ref, getDownloadURL } from "./firebase.js";
 
+let url = new URL(window.location.href);
+let grade = url.searchParams.get("grade");
+
 // 動画のパス
 const videoPathArr = [
   'videos/taga.mp4',
