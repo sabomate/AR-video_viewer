@@ -30,7 +30,7 @@
       embedded
       arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
     >
-      <!-- 再生ボタン -->
+        <!-- 再生ボタン -->
       <a-nft
         type="nft"
         id = "nft"
@@ -41,16 +41,32 @@
         smoothThreshold="5"
         markerhandler
       >
-        <a-video
-          src="#arVideo"
-          position="0 0 0"
+        <a-text
+          id="thumbnailText"
+          value="卒業おめでとう！"
+          font="keifont-msdf.json"
+          font-image="keifont-msdf.png"
+          negate="false"
+          scale="100 100 50"
+          position="80 2 -200"
           rotation="-90 0 0"
-          width="100"
-          height="33"
+          color="#fc6c85">
+        </a-text>
+        <a-obj-model id="gift_box" position="130 100 -100" scale="20 20 20" rotation="0 -90 70" src="#crate-obj" mtl="#crate-mtl"></a-obj-model>
+        <a-video
+          id = "videoFrame"
+          src="#arVideo"
+          position="130 100 -100"
+          rotation = "-90 0 0"
+          width="90"
+          height="160"
+          visible="false"
         ></a-video>
       </a-nft>
 
       <a-assets timeout="30000">
+        <a-asset-item id="crate-obj" src="gift_box.obj"></a-asset-item>
+        <a-asset-item id="crate-mtl" src="gift_box.mtl"></a-asset-item>
         <video
           id="arVideo"
           src="https://www2.yoslab.net/~minari/sample/taga.mp4"
