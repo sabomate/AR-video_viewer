@@ -1,18 +1,14 @@
 import { storage, ref, getDownloadURL, listAll} from "./firebase.js";
 
-let url = new URL(window.location.href);
-let grade = url.searchParams.get("grade");
-
-// 動画のパス
-const videoPathArr = []
-
-// Debug用
-grade = (grade == null) ? 'M1' : grade;
-// const listRef = ref(storage, 'videos');
+const video = document.getElementById('arVideo');
 
 // Firebase Storageから動画をダウンロード
-const video = document.getElementById('arVideo');
 const videoUrlArr = []
+
+let url = new URL(window.location.href);
+// Debug用
+let grade = url.searchParams.get("grade");
+grade = (grade == null) ? 'M1' : grade;
 
 const listRef = ref(storage, 'videos/' + grade);
 listAll(listRef)
@@ -29,7 +25,6 @@ listAll(listRef)
       });
     });
   }).catch((error) => {
-    // Uh-oh, an error occurred!
     console.error(`動画のダウンロードに失敗しました: ${error}`);
   });
 
