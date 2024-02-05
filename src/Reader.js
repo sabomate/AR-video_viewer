@@ -6,9 +6,13 @@ const video = document.getElementById('arVideo');
 const videoUrlArr = []
 
 let url = new URL(window.location.href);
-// Debug用
+
 let grade = url.searchParams.get("grade");
+// Debug用
 grade = (grade == null) ? 'M1' : grade;
+
+// URLからクエリパラメータを削除
+history.replaceState('', '', url.pathname);
 
 const listRef = ref(storage, 'videos/' + grade);
 listAll(listRef)
