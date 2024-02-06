@@ -1,0 +1,33 @@
+.hidden {
+  display: none;
+}
+
+.pin_button {
+  cursor: pointer;
+  position: fixed;
+  width: 8em;
+  height: 8em;
+  top: 10px;
+  right: 10px; /* 右上に配置 */
+  border: none; /* ボーダーは不要 */
+  border-radius: 50%;
+  background: url('pin.png') center/contain no-repeat; /* ピンのイラストのパスを指定 */
+  background-color: rgba(255, 255, 255, 0.7); /* 半透明にする */
+  color: transparent; /* テキストを透明にする */
+  font-size: 10px;
+  z-index: 100;
+  opacity: 0.8; /* 0から1までの値で透明度を指定 */
+  background-size: 60%;
+}
+
+/* 固定後の動画フレーム */
+.pin_video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  max-width: 600px; /* 任意の最大横幅を指定 */
+  aspect-ratio: 9 / 16; /* 縦横比を縦長に保つための設定 */
+  overflow: hidden;
+}
