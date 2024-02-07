@@ -21,7 +21,11 @@
       <button type="button" id="playVideBtn" class="video_play hidden"></button>
       <button type="button" id="changeNextVideoBtn" class="video_change left_btn hidden"></button>
       <button type="button" id="changePreviousVideoBtn" class="video_change right_btn hidden"></button>
+      <button type="button" id="VideoPinBtn" class="pin_button hidden"></button>
     </div>
+
+    <!-- ピン止め用の動画 -->
+    <video id="pinVideo" src="https://www2.yoslab.net/~minari/sample/taga.mp4" class="pin_video hidden"></video>
 
     <!-- シーン生成、AR.js呼び出し -->
     <a-scene
@@ -47,12 +51,12 @@
           font="keifont-msdf.json"
           font-image="keifont-msdf.png"
           negate="false"
-          scale="100 100 50"
+          scale="200 100 50"
           position="80 2 -200"
           rotation="-90 0 0"
           color="#fc6c85">
         </a-text>
-        <a-obj-model id="gift_box" position="130 100 -100" scale="20 20 20" rotation="0 -90 70" src="#crate-obj" mtl="#crate-mtl"></a-obj-model>
+        <a-obj-model id="gift_box" position="230 100 -100" scale="20 20 20" rotation="0 -90 70" src="#crate-obj" mtl="#crate-mtl"></a-obj-model>
         <a-video
           id = "videoFrame"
           src="#arVideo"
