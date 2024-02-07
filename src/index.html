@@ -9,14 +9,21 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <!-- Firebaseの読み込み -->
-    <script type="module" src="firebase.js"></script>
-    <script type="module" src="Reader.js"></script>
+    <!-- <script type="module" src="firebase.js"></script>
+    <script type="module" src="Reader.js"></script> -->
     <link rel="stylesheet" href="index.css" />
   </head>
   <body style="margin: 0px; overflow: hidden">
     <div class="arjs-loader">
-      <div>Loading, please wait...</div>
+      <div class="animoSpinner"></div>
+      <div class="main-logo">
+        <div class="icon"><img src="img/icon.png" alt="アイコン画像"></div>
+        <p class="product-name">ARバムめーかー</p>
+      </div>
+      <p class="loading-text">Now Loading...</p>
+      <p class="copy-text">&copy;Sabomate</p>
     </div>
+
     <div class="ui">
       <button type="button" id="playVideBtn" class="video_play hidden"></button>
       <button type="button" id="changeNextVideoBtn" class="video_change left_btn hidden"></button>
@@ -34,7 +41,6 @@
       embedded
       arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
     >
-        <!-- 再生ボタン -->
       <a-nft
         type="nft"
         id = "nft"
@@ -78,9 +84,6 @@
         ></video>
       </a-assets>
     </a-scene>
-
-    <script type="module" src="firebase.js"></script>
-    <script type="module" src="Reader.js"></script>
 
     <script>
       // nftマーカーが読み込まれたときのイベント
