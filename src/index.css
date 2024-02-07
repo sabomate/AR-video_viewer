@@ -133,7 +133,7 @@
 /* ======================================== */
 /* 認識待機画面 */
 /* ======================================== */
-.first-no-marker-scene{
+#guideUi{
   position: absolute;
   top: 0;
   left: 0;
@@ -141,7 +141,6 @@
   height: 100%;
   background-color: #FFE7E7;
   background-color: rgba(245, 219, 219, 0.3);
-  /* opacity: 60%; */
 }
 
 .sakura-top{
