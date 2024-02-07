@@ -8,6 +8,9 @@ const pinVideo = document.getElementById("pinVideo");
 const  VideoPinBtn = document.getElementById('VideoPinBtn');
 const videoFrame = document.getElementById("videoFrame");
 
+// ピン止め用ボタンのフラグ
+let startBtnFlag = false;
+
 // Firebase Storageから動画をダウンロード
 const videoUrlArr = []
 
@@ -71,6 +74,10 @@ playVideBtn.addEventListener('click', () => {
     document.getElementById("thumbnailText").setAttribute("visible", false)
     document.getElementById("gift_box").setAttribute("visible", false)
     document.getElementById("videoFrame").setAttribute("visible", true)
+    changeNextVideoBtn.classList.toggle('hidden');
+    changePreviousVideoBtn.classList.toggle('hidden');
+    VideoPinBtn.classList.toggle('hidden');
+    startBtnFlag = true;
   }
   videoClickCount += 1;
   console.log('playVideBtn click');
@@ -120,16 +127,20 @@ nft.addEventListener('markerFound', () => {
   video.src = videoUrlArr[videoIndex];
   pinVideo.src = videoUrlArr[videoIndex];
   playVideBtn.classList.remove('hidden');
-  changeNextVideoBtn.classList.remove('hidden');
-  changePreviousVideoBtn.classList.remove('hidden');
-  VideoPinBtn.classList.toggle('hidden');
-});
+  if (startBtnFlag) {
+    changeNextVideoBtn.classList.toggle('hidden');
+    changePreviousVideoBtn.classList.toggle('hidden');
+    VideoPinBtn.classList.toggle('hidden');
+  }
+  });
 
 // marker消失時のイベント
 nft.addEventListener('markerLost', () => {
   console.log('nft markerLost');
   playVideBtn.classList.add('hidden');
-  changeNextVideoBtn.classList.add('hidden');
-  changePreviousVideoBtn.classList.add('hidden');
-  VideoPinBtn.classList.toggle('hidden');
+  if (startBtnFlag) {
+    changeNextVideoBtn.classList.toggle('hidden');
+    changePreviousVideoBtn.classList.toggle('hidden');
+    VideoPinBtn.classList.toggle('hidden');
+  }
 });
