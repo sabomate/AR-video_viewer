@@ -130,6 +130,76 @@
   transform: translateX(-50%);
 }
 
+/* ======================================== */
+/* 認識待機画面 */
+/* ======================================== */
+#guideUi{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #FFE7E7;
+  background-color: rgba(245, 219, 219, 0.3);
+}
+
+.sakura-top{
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 100%;
+}
+
+.sakura-bottom{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: 100%;
+  transform: rotateZ(180deg);
+}
+
+.guide{
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 60%;
+  max-width: 600px;
+  max-height: 400px;
+  text-align: center;
+}
+
+.guide-text {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width:100%;
+  color: #fff;
+  font-size: 1.3em;
+  font-style: bold;
+  text-shadow: 1px 1px 1px #888;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+}
+
+.frame-img{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 15em;
+  overflow: hidden;
+  z-index: 100;
+  opacity: 100%;
+}
+
+.frame-img img{
+  width: 100%;
+  height: 100%;
+}
+
 
 /* 再生ボタン */
 .video_play {

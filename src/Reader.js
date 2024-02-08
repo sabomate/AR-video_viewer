@@ -8,6 +8,8 @@ const pinVideo = document.getElementById("pinVideo");
 const  VideoPinBtn = document.getElementById('VideoPinBtn');
 const videoFrame = document.getElementById("videoFrame");
 
+const guideUi = document.getElementById("guideUi");
+
 // ピン止め用ボタンのフラグ
 let startBtnFlag = false;
 
@@ -124,6 +126,7 @@ const nft = document.getElementById('nft');
 // marker発見時のイベント
 nft.addEventListener('markerFound', () => {
   console.log('nft markerFound');
+  guideUi.classList.add('hidden');
   video.src = videoUrlArr[videoIndex];
   pinVideo.src = videoUrlArr[videoIndex];
   playVideBtn.classList.remove('hidden');
