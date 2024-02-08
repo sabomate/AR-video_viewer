@@ -8,7 +8,13 @@ const pinVideo = document.getElementById("pinVideo");
 const  VideoPinBtn = document.getElementById('VideoPinBtn');
 const videoFrame = document.getElementById("videoFrame");
 
+<<<<<<< HEAD
 // プレゼント開封のフラグ
+=======
+const guideUi = document.getElementById("guideUi");
+
+// ピン止め用ボタンのフラグ
+>>>>>>> 752bc5130e76c73d081151dbf4360b9c86b663d7
 let startBtnFlag = false;
 
 // マーカー認識のフラグ
@@ -145,6 +151,7 @@ const nft = document.getElementById('nft');
 // marker発見時のイベント
 nft.addEventListener('markerFound', () => {
   console.log('nft markerFound');
+  guideUi.classList.add('hidden');
   video.src = videoUrlArr[videoIndex];
   pinVideo.src = videoUrlArr[videoIndex];
   // playVideBtn.classList.remove('hidden');

@@ -15,9 +15,24 @@
   </head>
   <body style="margin: 0px; overflow: hidden">
     <div class="arjs-loader">
-      <div>Loading, please wait...</div>
+      <div class="animoSpinner"></div>
+      <div class="main-logo">
+        <div class="icon"><img src="img/icon.png" alt="アイコン画像"></div>
+        <p class="product-name">ARバムめーかー</p>
+      </div>
+      <p class="loading-text">Now Loading...</p>
+      <p class="copy-text">&copy;Sabomate</p>
     </div>
+
     <div class="ui">
+      <div id="guideUi">
+        <div><img class="back-sakura sakura-top" src="img/sakura.png" alt=""></div>
+        <div><img class="back-sakura sakura-bottom" src="img/sakura.png" alt=""></div>
+        <div class="guide">
+          <p class="guide-text">全体写真をかざしてみよう！</p>
+          <div class="frame-img"><img src="img/frame.png" alt=""></div>
+        </div>
+      </div>
       <button type="button" id="playVideBtn" class="video_play hidden"></button>
       <button type="button" id="changeNextVideoBtn" class="video_change left_btn hidden"></button>
       <button type="button" id="changePreviousVideoBtn" class="video_change right_btn hidden"></button>
@@ -34,7 +49,6 @@
       embedded
       arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
     >
-        <!-- 再生ボタン -->
       <a-nft
         type="nft"
         id = "nft"
@@ -78,9 +92,6 @@
         ></video>
       </a-assets>
     </a-scene>
-
-    <script type="module" src="firebase.js"></script>
-    <script type="module" src="Reader.js"></script>
 
     <script>
       // nftマーカーが読み込まれたときのイベント
