@@ -8,8 +8,11 @@ const pinVideo = document.getElementById("pinVideo");
 const  VideoPinBtn = document.getElementById('VideoPinBtn');
 const videoFrame = document.getElementById("videoFrame");
 
-// ピン止め用ボタンのフラグ
+// プレゼント開封のフラグ
 let startBtnFlag = false;
+
+// マーカー認識のフラグ
+let markerLoadFlag = false;
 
 // Firebase Storageから動画をダウンロード
 const videoUrlArr = []
@@ -58,31 +61,49 @@ VideoPinBtn.addEventListener('click', () => {
     console.log("pin video on");
   } else {
     pinVideo.pause();
-    videoFrame.play();
+    video.play();
     console.log("ar video on");
   }
 });
 
 let videoIndex = 0;
-let videoClickCount = 0;
 
-// 再生ボタン
-const  playVideBtn = document.getElementById('playVideBtn');
-playVideBtn.addEventListener('click', () => {
-  // 最初だけサムネイル要素の削除を実行
-  if (videoClickCount == 0){
-    document.getElementById("thumbnailText").setAttribute("visible", false)
-    document.getElementById("gift_box").setAttribute("visible", false)
-    document.getElementById("videoFrame").setAttribute("visible", true)
-    changeNextVideoBtn.classList.toggle('hidden');
-    changePreviousVideoBtn.classList.toggle('hidden');
-    VideoPinBtn.classList.toggle('hidden');
-    startBtnFlag = true;
-  }
-  videoClickCount += 1;
-  console.log('playVideBtn click');
-  video.play();
-});
+// プレゼント開封で動画の再生開始
+const isTouchable = "ontouchstart" in window || (window.DocumentTouch && document instanceof DocumentTouch);
+if (isTouchable) {
+  window.addEventListener('touchstart', () => {
+    console.log("tap!");
+    if (!startBtnFlag){
+      if (markerLoadFlag){
+        console.log("tap!");
+        document.getElementById("thumbnailText").setAttribute("visible", false)
+        document.getElementById("gift_box").setAttribute("visible", false)
+        document.getElementById("videoFrame").setAttribute("visible", true)
+        changeNextVideoBtn.classList.toggle('hidden');
+        changePreviousVideoBtn.classList.toggle('hidden');
+        VideoPinBtn.classList.toggle('hidden');
+        startBtnFlag = true;
+        video.play();
+      }
+    }
+  });
+} else {
+  window.addEventListener('click', () => {
+    console.log("click!");
+    if (!startBtnFlag){
+      if (markerLoadFlag){
+        document.getElementById("thumbnailText").setAttribute("visible", false)
+        document.getElementById("gift_box").setAttribute("visible", false)
+        document.getElementById("videoFrame").setAttribute("visible", true)
+        changeNextVideoBtn.classList.toggle('hidden');
+        changePreviousVideoBtn.classList.toggle('hidden');
+        VideoPinBtn.classList.toggle('hidden');
+        startBtnFlag = true;
+        video.play();
+      }
+    }
+  });
+}
 
 // 次の動画ボタン
 const  changeNextVideoBtn = document.getElementById('changeNextVideoBtn');
@@ -96,7 +117,7 @@ changeNextVideoBtn.addEventListener('click', () => {
     pinVideo.play();
     console.log("pin video on");
   } else {
-    videoFrame.play();
+    video.play();
     console.log("ar video on");
   }
   // video.play();
@@ -114,7 +135,7 @@ changePreviousVideoBtn.addEventListener('click', () => {
     pinVideo.play();
     console.log("pin video on");
   } else {
-    videoFrame.play();
+    video.play();
     console.log("ar video on");
   }
   // video.play();
@@ -126,18 +147,24 @@ nft.addEventListener('markerFound', () => {
   console.log('nft markerFound');
   video.src = videoUrlArr[videoIndex];
   pinVideo.src = videoUrlArr[videoIndex];
-  playVideBtn.classList.remove('hidden');
+  // playVideBtn.classList.remove('hidden');
+  // マーカー認識時
+  markerLoadFlag = true;
+  console.log(markerLoadFlag)
   if (startBtnFlag) {
     changeNextVideoBtn.classList.toggle('hidden');
     changePreviousVideoBtn.classList.toggle('hidden');
     VideoPinBtn.classList.toggle('hidden');
   }
-  });
+});
 
 // marker消失時のイベント
 nft.addEventListener('markerLost', () => {
   console.log('nft markerLost');
-  playVideBtn.classList.add('hidden');
+  // playVideBtn.classList.add('hidden');
+  // マーカー非認識時
+  markerLoadFlag = false;
+  console.log(markerLoadFlag)
   if (startBtnFlag) {
     changeNextVideoBtn.classList.toggle('hidden');
     changePreviousVideoBtn.classList.toggle('hidden');
