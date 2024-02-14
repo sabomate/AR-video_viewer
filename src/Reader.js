@@ -27,23 +27,20 @@ grade = grade == null ? "B4" : grade;
 // URLからクエリパラメータを削除
 history.replaceState("", "", url.pathname);
 
-const listRef = ref(storage, "videos/" + grade);
+// 動画の参照リストの取得
 let videoRefList = [];
+const listRef = ref(storage, "videos/" + grade);
 listAll(listRef)
   .then(async (res) => {
     res.items.forEach(async (itemRef, index) => {
       videoRefList.push(itemRef);
-      // if (index == 0) {
-      //   var videoUrl = await getVideoUrl(videoRefList[0]);
-      //   console.log(videoUrl);
-      // }
     });
   })
   .catch((error) => {
     console.error(`動画参照リストの取得に失敗しました: ${error}`);
   });
 
-
+// ピン止めボタン
 VideoPinBtn.addEventListener("click", () => {
   console.log("click pin btn");
   // 切り替え時にどちらか片方が表示されるようにする
@@ -102,6 +99,7 @@ function handleTap() {
         canOpenPresent = true;
         video.play();
       }
+      videoClickCount += 1;
       video.play();
     })
     .catch((error) => {
@@ -183,9 +181,12 @@ nft.addEventListener('markerFound', () => {
 // marker消失時のイベント
 nft.addEventListener("markerLost", () => {
   console.log("nft markerLost");
-  playVideBtn.classList.add("hidden");
+  // 再生制御
   video.pause();
   pinVideo.pause();
+
+  // UI制御
+  playVideBtn.classList.add("hidden");
   isFindMarker = false;
 
   if (canOpenPresent) {
