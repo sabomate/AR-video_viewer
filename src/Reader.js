@@ -5,23 +5,19 @@ const video = document.getElementById('arVideo');
 // ピン止め用ビデオ要素
 const pinVideo = document.getElementById("pinVideo");
 // ビデオのピンボタン
-const  VideoPinBtn = document.getElementById('VideoPinBtn');
+const VideoPinBtn = document.getElementById('VideoPinBtn');
 const videoFrame = document.getElementById("videoFrame");
 
-<<<<<<< HEAD
-// プレゼント開封のフラグ
-=======
 const guideUi = document.getElementById("guideUi");
 
-// ピン止め用ボタンのフラグ
->>>>>>> 752bc5130e76c73d081151dbf4360b9c86b663d7
+// プレゼント開封のフラグ
 let startBtnFlag = false;
 
 // マーカー認識のフラグ
 let markerLoadFlag = false;
 
 // Firebase Storageから動画をダウンロード
-const videoUrlArr = []
+const videoUrlArr = [];
 
 let url = new URL(window.location.href);
 
