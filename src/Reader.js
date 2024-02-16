@@ -5,16 +5,19 @@ const video = document.getElementById('arVideo');
 // ピン止め用ビデオ要素
 const pinVideo = document.getElementById("pinVideo");
 // ビデオのピンボタン
-const  VideoPinBtn = document.getElementById('VideoPinBtn');
+const VideoPinBtn = document.getElementById('VideoPinBtn');
 const videoFrame = document.getElementById("videoFrame");
 
 const guideUi = document.getElementById("guideUi");
 
-// ピン止め用ボタンのフラグ
-let startBtnFlag = false;
+// プレゼント開封のフラグ
+let canOpenPresent = false;
+
+// マーカー認識のフラグ
+let isFindMarker = false;
 
 // Firebase Storageから動画をダウンロード
-const videoUrlArr = []
+const videoUrlArr = [];
 
 let url = new URL(window.location.href);
 
@@ -60,31 +63,35 @@ VideoPinBtn.addEventListener('click', () => {
     console.log("pin video on");
   } else {
     pinVideo.pause();
-    videoFrame.play();
+    video.play();
     console.log("ar video on");
   }
 });
 
 let videoIndex = 0;
-let videoClickCount = 0;
 
-// 再生ボタン
-const  playVideBtn = document.getElementById('playVideBtn');
-playVideBtn.addEventListener('click', () => {
-  // 最初だけサムネイル要素の削除を実行
-  if (videoClickCount == 0){
-    document.getElementById("thumbnailText").setAttribute("visible", false)
-    document.getElementById("gift_box").setAttribute("visible", false)
-    document.getElementById("videoFrame").setAttribute("visible", true)
+// プレゼント開封で動画の再生開始
+const isTouchable = "ontouchstart" in window || (window.DocumentTouch && document instanceof DocumentTouch);
+function handleTap() {
+  console.log("tap!");
+
+  if (!canOpenPresent && isFindMarker) {
+    document.getElementById("thumbnailText").setAttribute("visible", false);
+    document.getElementById("gift_box").setAttribute("visible", false);
+    document.getElementById("videoFrame").setAttribute("visible", true);
     changeNextVideoBtn.classList.toggle('hidden');
     changePreviousVideoBtn.classList.toggle('hidden');
     VideoPinBtn.classList.toggle('hidden');
-    startBtnFlag = true;
+    canOpenPresent = true;
+    video.play();
   }
-  videoClickCount += 1;
-  console.log('playVideBtn click');
-  video.play();
-});
+}
+
+if (isTouchable) {
+  window.addEventListener('touchstart', handleTap);
+} else {
+  window.addEventListener('click', handleTap);
+}
 
 // 次の動画ボタン
 const  changeNextVideoBtn = document.getElementById('changeNextVideoBtn');
@@ -98,7 +105,7 @@ changeNextVideoBtn.addEventListener('click', () => {
     pinVideo.play();
     console.log("pin video on");
   } else {
-    videoFrame.play();
+    video.play();
     console.log("ar video on");
   }
   // video.play();
@@ -116,7 +123,7 @@ changePreviousVideoBtn.addEventListener('click', () => {
     pinVideo.play();
     console.log("pin video on");
   } else {
-    videoFrame.play();
+    video.play();
     console.log("ar video on");
   }
   // video.play();
@@ -129,19 +136,25 @@ nft.addEventListener('markerFound', () => {
   guideUi.classList.add('hidden');
   video.src = videoUrlArr[videoIndex];
   pinVideo.src = videoUrlArr[videoIndex];
-  playVideBtn.classList.remove('hidden');
-  if (startBtnFlag) {
+  // playVideBtn.classList.remove('hidden');
+  // マーカー認識時
+  isFindMarker = true;
+  console.log(isFindMarker)
+  if (canOpenPresent) {
     changeNextVideoBtn.classList.toggle('hidden');
     changePreviousVideoBtn.classList.toggle('hidden');
     VideoPinBtn.classList.toggle('hidden');
   }
-  });
+});
 
 // marker消失時のイベント
 nft.addEventListener('markerLost', () => {
   console.log('nft markerLost');
-  playVideBtn.classList.add('hidden');
-  if (startBtnFlag) {
+  // playVideBtn.classList.add('hidden');
+  // マーカー非認識時
+  isFindMarker = false;
+  console.log(isFindMarker)
+  if (canOpenPresent) {
     changeNextVideoBtn.classList.toggle('hidden');
     changePreviousVideoBtn.classList.toggle('hidden');
     VideoPinBtn.classList.toggle('hidden');
