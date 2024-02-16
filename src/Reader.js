@@ -11,10 +11,10 @@ const videoFrame = document.getElementById("videoFrame");
 const guideUi = document.getElementById("guideUi");
 
 // プレゼント開封のフラグ
-let startBtnFlag = false;
+let canOpenPresent = false;
 
 // マーカー認識のフラグ
-let markerLoadFlag = false;
+let isFindMarker = false;
 
 // Firebase Storageから動画をダウンロード
 const videoUrlArr = [];
@@ -72,39 +72,25 @@ let videoIndex = 0;
 
 // プレゼント開封で動画の再生開始
 const isTouchable = "ontouchstart" in window || (window.DocumentTouch && document instanceof DocumentTouch);
+function handleTap() {
+  console.log("tap!");
+
+  if (!canOpenPresent && isFindMarker) {
+    document.getElementById("thumbnailText").setAttribute("visible", false);
+    document.getElementById("gift_box").setAttribute("visible", false);
+    document.getElementById("videoFrame").setAttribute("visible", true);
+    changeNextVideoBtn.classList.toggle('hidden');
+    changePreviousVideoBtn.classList.toggle('hidden');
+    VideoPinBtn.classList.toggle('hidden');
+    canOpenPresent = true;
+    video.play();
+  }
+}
+
 if (isTouchable) {
-  window.addEventListener('touchstart', () => {
-    console.log("tap!");
-    if (!startBtnFlag){
-      if (markerLoadFlag){
-        console.log("tap!");
-        document.getElementById("thumbnailText").setAttribute("visible", false)
-        document.getElementById("gift_box").setAttribute("visible", false)
-        document.getElementById("videoFrame").setAttribute("visible", true)
-        changeNextVideoBtn.classList.toggle('hidden');
-        changePreviousVideoBtn.classList.toggle('hidden');
-        VideoPinBtn.classList.toggle('hidden');
-        startBtnFlag = true;
-        video.play();
-      }
-    }
-  });
+  window.addEventListener('touchstart', handleTap);
 } else {
-  window.addEventListener('click', () => {
-    console.log("click!");
-    if (!startBtnFlag){
-      if (markerLoadFlag){
-        document.getElementById("thumbnailText").setAttribute("visible", false)
-        document.getElementById("gift_box").setAttribute("visible", false)
-        document.getElementById("videoFrame").setAttribute("visible", true)
-        changeNextVideoBtn.classList.toggle('hidden');
-        changePreviousVideoBtn.classList.toggle('hidden');
-        VideoPinBtn.classList.toggle('hidden');
-        startBtnFlag = true;
-        video.play();
-      }
-    }
-  });
+  window.addEventListener('click', handleTap);
 }
 
 // 次の動画ボタン
@@ -152,9 +138,9 @@ nft.addEventListener('markerFound', () => {
   pinVideo.src = videoUrlArr[videoIndex];
   // playVideBtn.classList.remove('hidden');
   // マーカー認識時
-  markerLoadFlag = true;
-  console.log(markerLoadFlag)
-  if (startBtnFlag) {
+  isFindMarker = true;
+  console.log(isFindMarker)
+  if (canOpenPresent) {
     changeNextVideoBtn.classList.toggle('hidden');
     changePreviousVideoBtn.classList.toggle('hidden');
     VideoPinBtn.classList.toggle('hidden');
@@ -166,9 +152,9 @@ nft.addEventListener('markerLost', () => {
   console.log('nft markerLost');
   // playVideBtn.classList.add('hidden');
   // マーカー非認識時
-  markerLoadFlag = false;
-  console.log(markerLoadFlag)
-  if (startBtnFlag) {
+  isFindMarker = false;
+  console.log(isFindMarker)
+  if (canOpenPresent) {
     changeNextVideoBtn.classList.toggle('hidden');
     changePreviousVideoBtn.classList.toggle('hidden');
     VideoPinBtn.classList.toggle('hidden');
