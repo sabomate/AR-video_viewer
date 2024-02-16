@@ -16,9 +16,6 @@ let canOpenPresent = false;
 // マーカー認識のフラグ
 let isFindMarker = false;
 
-// Firebase Storageから動画をダウンロード
-const videoUrlArr = [];
-
 let url = new URL(window.location.href);
 let grade = url.searchParams.get("grade");
 // Debug用
@@ -166,8 +163,10 @@ const nft = document.getElementById("nft");
 nft.addEventListener('markerFound', () => {
   console.log('nft markerFound');
   guideUi.classList.add('hidden');
-  video.src = videoUrlArr[videoIndex];
-  pinVideo.src = videoUrlArr[videoIndex];
+  getDownloadURL(videoRefList[videoIndex]).then((url) => {
+    pinVideo.src = url;
+    video.src = url;
+  });
   playVideBtn.classList.remove('hidden');
   isFindMarker = true;
 
