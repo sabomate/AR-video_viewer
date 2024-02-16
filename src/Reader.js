@@ -61,24 +61,7 @@ VideoPinBtn.addEventListener("click", () => {
 
 let videoIndex = 0;
 
-// 再生ボタン
-const  playVideBtn = document.getElementById('playVideBtn');
-playVideBtn.addEventListener('click', () => {
-  // 最初だけサムネイル要素の削除を実行
-  if (videoClickCount == 0){
-    document.getElementById("thumbnailText").setAttribute("visible", false)
-    document.getElementById("gift_box").setAttribute("visible", false)
-    document.getElementById("videoFrame").setAttribute("visible", true)
-    changeNextVideoBtn.classList.toggle('hidden');
-    changePreviousVideoBtn.classList.toggle('hidden');
-    VideoPinBtn.classList.toggle('hidden');
-    startBtnFlag = true;
-  }
-  videoClickCount += 1;
-  console.log('playVideBtn click');
-  video.play();
-});
-
+// プレゼント開封で動画の再生開始
 function handleTap() {
   getDownloadURL(videoRefList[videoIndex])
     .then(async (url) => {
@@ -90,9 +73,9 @@ function handleTap() {
         document.getElementById("thumbnailText").setAttribute("visible", false);
         document.getElementById("gift_box").setAttribute("visible", false);
         document.getElementById("videoFrame").setAttribute("visible", true);
-        changeNextVideoBtn.classList.toggle('hidden');
-        changePreviousVideoBtn.classList.toggle('hidden');
-        VideoPinBtn.classList.toggle('hidden');
+        changeNextVideoBtn.classList.toggle("hidden");
+        changePreviousVideoBtn.classList.toggle("hidden");
+        VideoPinBtn.classList.toggle("hidden");
         canOpenPresent = true;
         video.play();
       }
@@ -104,12 +87,14 @@ function handleTap() {
     });
 }
 
-const isTouchable = "ontouchstart" in window || (window.DocumentTouch && document instanceof DocumentTouch);
+const isTouchable =
+  "ontouchstart" in window ||
+  (window.DocumentTouch && document instanceof DocumentTouch);
 
 if (isTouchable) {
-  window.addEventListener('touchstart', handleTap);
+  window.addEventListener("touchstart", handleTap);
 } else {
-  window.addEventListener('click', handleTap);
+  window.addEventListener("click", handleTap);
 }
 
 // 次の動画ボタン
@@ -140,40 +125,40 @@ const changePreviousVideoBtn = document.getElementById(
 );
 changePreviousVideoBtn.addEventListener("click", () => {
   videoIndex = (videoIndex - 1 + videoRefList.length) % videoRefList.length;
-getDownloadURL(videoRefList[videoIndex])
-  .then((url) => {
-    pinVideo.src = url;
-    video.src = url;
-    // 表示されている方を再生する
-    if (!pinVideo.classList.contains("hidden")) {
-      pinVideo.play();
-      console.log("pin video on");
-    } else {
-      video.play();
-      console.log("ar video on");
-    }
-  })
-  .catch((error) => {
-    console.error(`動画URLの取得に失敗しました: ${error}`);
-  });
+  getDownloadURL(videoRefList[videoIndex])
+    .then((url) => {
+      pinVideo.src = url;
+      video.src = url;
+      // 表示されている方を再生する
+      if (!pinVideo.classList.contains("hidden")) {
+        pinVideo.play();
+        console.log("pin video on");
+      } else {
+        video.play();
+        console.log("ar video on");
+      }
+    })
+    .catch((error) => {
+      console.error(`動画URLの取得に失敗しました: ${error}`);
+    });
 });
 
 const nft = document.getElementById("nft");
 // marker発見時のイベント
-nft.addEventListener('markerFound', () => {
-  console.log('nft markerFound');
-  guideUi.classList.add('hidden');
+nft.addEventListener("markerFound", () => {
+  console.log("nft markerFound");
+  guideUi.classList.add("hidden");
   getDownloadURL(videoRefList[videoIndex]).then((url) => {
     pinVideo.src = url;
     video.src = url;
   });
-  playVideBtn.classList.remove('hidden');
+  playVideBtn.classList.remove("hidden");
   isFindMarker = true;
 
   if (canOpenPresent) {
-    changeNextVideoBtn.classList.toggle('hidden');
-    changePreviousVideoBtn.classList.toggle('hidden');
-    VideoPinBtn.classList.toggle('hidden');
+    changeNextVideoBtn.classList.toggle("hidden");
+    changePreviousVideoBtn.classList.toggle("hidden");
+    VideoPinBtn.classList.toggle("hidden");
   }
 });
 
