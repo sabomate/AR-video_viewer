@@ -63,28 +63,17 @@ let videoIndex = 0;
 
 // プレゼント開封で動画の再生開始
 function handleTap() {
-  getDownloadURL(videoRefList[videoIndex])
-    .then(async (url) => {
-      pinVideo.src = url;
-      video.src = url;
-      // 表示されている方を再生する
-      // 最初だけサムネイル要素の削除を実行
-      if (!canOpenPresent && isFindMarker) {
-        document.getElementById("thumbnailText").setAttribute("visible", false);
-        document.getElementById("gift_box").setAttribute("visible", false);
-        document.getElementById("videoFrame").setAttribute("visible", true);
-        changeNextVideoBtn.classList.toggle("hidden");
-        changePreviousVideoBtn.classList.toggle("hidden");
-        VideoPinBtn.classList.toggle("hidden");
-        canOpenPresent = true;
-        video.play();
-      }
-      videoClickCount += 1;
-      video.play();
-    })
-    .catch((error) => {
-      console.error(`動画URLの取得に失敗しました: ${error}`);
-    });
+  if (!canOpenPresent && isFindMarker) {
+    document.getElementById("thumbnailText").setAttribute("visible", false);
+    document.getElementById("gift_box").setAttribute("visible", false);
+    document.getElementById("videoFrame").setAttribute("visible", true);
+    changeNextVideoBtn.classList.toggle("hidden");
+    changePreviousVideoBtn.classList.toggle("hidden");
+    VideoPinBtn.classList.toggle("hidden");
+    canOpenPresent = true;
+    video.play();
+  }
+  video.play();
 }
 
 const isTouchable =
