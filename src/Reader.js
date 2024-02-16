@@ -154,9 +154,9 @@ nft.addEventListener("markerFound", () => {
 // marker消失時のイベント
 nft.addEventListener("markerLost", () => {
   console.log("nft markerLost");
-  // 再生制御
-  video.pause();
-  pinVideo.pause();
+  // TODO: 再生制御(一旦消します #34でたたかいましょう)
+  // video.pause();
+  // pinVideo.pause();
 
   // UI制御
   playVideBtn.classList.add("hidden");
