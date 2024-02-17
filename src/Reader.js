@@ -10,6 +10,15 @@ const videoFrame = document.getElementById("videoFrame");
 
 const guideUi = document.getElementById("guideUi");
 
+// 状態列挙
+const viewStates = {
+  isArView: "ArView",
+  isPinView: "pinView",
+};
+
+// 現在の状態
+let currentViewState = viewStates.isArView;
+
 // プレゼント開封のフラグ
 let canOpenPresent = false;
 
@@ -41,6 +50,9 @@ listAll(listRef)
 changeViewBtn.addEventListener("click", () => {
   changeViewBtn.classList.toggle("ar_view");
   console.log("click pin btn");
+  // viewModeの切り替え
+  changeViewMode();
+
   // 切り替え時にどちらか片方が表示されるようにする
   pinVideo.classList.toggle("hidden");
   // videoFrame.classList.toggle('hidden');
@@ -49,7 +61,7 @@ changeViewBtn.addEventListener("click", () => {
   console.log(videoFrame.classList);
 
   // 表示されている方を再生する
-  if (!pinVideo.classList.contains("hidden")) {
+  if (currentViewState === viewStates.isPinView) {
     video.pause();
     pinVideo.play();
     console.log("pin video on");
@@ -96,7 +108,7 @@ changeNextVideoBtn.addEventListener("click", () => {
       pinVideo.src = url;
       video.src = url;
       // 表示されている方を再生する
-      if (!pinVideo.classList.contains("hidden")) {
+      if (currentViewState === viewStates.isPinView) {
         pinVideo.play();
         console.log("pin video on");
       } else {
@@ -120,7 +132,7 @@ changePreviousVideoBtn.addEventListener("click", () => {
       pinVideo.src = url;
       video.src = url;
       // 表示されている方を再生する
-      if (!pinVideo.classList.contains("hidden")) {
+      if (currentViewState === viewStates.isPinView) {
         pinVideo.play();
         console.log("pin video on");
       } else {
@@ -169,3 +181,12 @@ nft.addEventListener("markerLost", () => {
     changeViewBtn.classList.toggle("hidden");
   }
 });
+
+
+function changeViewMode() {
+  if (currentViewState === viewStates.isArView) {
+    currentViewState = viewStates.isPinView;
+  } else {
+    currentViewState = viewStates.isArView;
+  }
+}
