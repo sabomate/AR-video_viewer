@@ -37,6 +37,10 @@ listAll(listRef)
     console.error(`動画参照リストの取得に失敗しました: ${error}`);
   });
 
+VideoPinBtn.addEventListener("click", function() {
+  this.classList.add("active");
+});
+
 // ピン止めボタン
 VideoPinBtn.addEventListener("click", () => {
   console.log("click pin btn");
