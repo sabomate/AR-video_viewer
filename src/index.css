@@ -233,49 +233,102 @@
   pointer-events: none;
 }
 
-/* 動画変更ボタン */
-.video_change{
+.video_change {
   position: absolute;
-  top: 50%;
+  bottom: 10px;
+  width: 6em;
+  height: 6em;
+  border-radius: 50%; /* 角丸 */
   transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 30px solid transparent;
-  border-bottom: 30px solid transparent;
-  background: rgba(0, 0, 0, 0);
+  background-color: rgba(255, 231, 231, 0.7);
   z-index: 100;
   -webkit-appearance: none;
 }
 
-.video_change.left_btn{
-  right: 10px;
-  border-right: none;
-  border-left: 30px solid #333;
-  
+.video_change.left_btn {
+  left: 10px; /* 画面左に配置 */
 }
 
-.video_change.right_btn{
-  left: 10px;
-  border-left: none;
-  border-right: 30px solid #333;
+.video_change.left_btn::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-right: 20px solid #ffffff;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50%; /* 矢印を中央に配置 */
+  margin-left: -13px; /* 中央配置の微調整 */
 }
 
-.pin_button {
+.video_change.right_btn {
+  right: 10px; /* 画面右に配置 */
+}
+
+.video_change.right_btn::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid #ffffff;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 50%; /* 矢印を中央に配置 */
+  margin-right: -13px; /* 中央配置の微調整 */
+}
+
+.video_change:ar_view,
+.video_change:hover {
+  background-color: rgba(255, 231, 231, 0.9); /* 押されたりホバーされたりした際の半透明度を変更 */
+  opacity: 1; /* 押されたりホバーされたりした際の透明度を変更 */
+}
+
+
+.change_button {
   cursor: pointer;
   position: fixed;
-  width: 8em;
-  height: 8em;
+  width: 6em;
+  height: 6em;
   top: 10px;
   right: 10px; /* 右上に配置 */
   border: none; /* ボーダーは不要 */
   border-radius: 50%;
-  background: url('pin.png') center/contain no-repeat; /* ピンのイラストのパスを指定 */
-  background-color: rgba(255, 255, 255, 0.7); /* 半透明にする */
+  background: url('img/pin_white.png') center/contain no-repeat; /* ピンのイラストのパスを指定 */
+  background-color: rgba(255, 231, 231, 0.7); /* 半透明にする */
   color: transparent; /* テキストを透明にする */
   font-size: 10px;
   z-index: 100;
   opacity: 0.8; /* 0から1までの値で透明度を指定 */
   background-size: 60%;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* ドロップシャドウを追加 */
+}
+
+.change_button.ar_view {
+  background-image: none; /* ピン画像を非表示 */
+  color: #ffffff; /* テキストの色 */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* アクティブ状態のドロップシャドウ */
+}
+
+.change_button.ar_view::before {
+  content: "AR"; /* 表示するテキスト */
+  font-size: 32px; /* テキストのサイズ */
+  font-weight: bold;
+  position: absolute; /* 絶対位置指定 */
+  top: 50%; /* 上端を中央に */
+  left: 50%; /* 左端を中央に */
+  transform: translate(-50%, -50%); /* 中央揃え */
+}
+
+
+.change_button:ar_view,
+.change_button:hover {
+  background-color: rgba(255, 231, 231, 0.9); /* 押されたりホバーされたりした際の半透明度を変更 */
+  opacity: 1; /* 押されたりホバーされたりした際の透明度を変更 */
 }
 
 /* 固定後の動画フレーム */
