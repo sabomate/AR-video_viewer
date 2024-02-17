@@ -40,7 +40,10 @@
     </div>
 
     <!-- ピン止め用の動画 -->
-    <video id="pinVideo" src="https://www2.yoslab.net/~minari/sample/taga.mp4" class="pin_video hidden"></video>
+    <div id="pinVideoUI">
+      <button type="button" id="playPinVideBtn" class="video_play pin_video_play_btn hidden"></button>
+      <video id="pinVideo" src="https://www2.yoslab.net/~minari/sample/taga.mp4" class="pin_video hidden"></video>
+    </div>
 
     <!-- シーン生成、AR.js呼び出し -->
     <a-scene

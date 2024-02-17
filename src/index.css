@@ -342,3 +342,12 @@
   aspect-ratio: 9 / 16; /* 縦横比を縦長に保つための設定 */
   overflow: hidden;
 }
+
+.pin_video_play_btn{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  aspect-ratio: 9 / 16; /* 縦横比を縦長に保つための設定 */
+  overflow: hidden;
+}

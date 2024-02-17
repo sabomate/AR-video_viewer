@@ -2,11 +2,12 @@ import { storage, ref, getDownloadURL, listAll } from "./firebase.js";
 
 // assetのビデオタグ要素
 const video = document.getElementById("arVideo");
+const arVideoFrame = document.getElementById("videoFrame");
 // ピン止め用ビデオ要素
-const pinVideo = document.getElementById("pinVideo");
+const pinVideoFrame = document.getElementById("pinVideo");
+const playPinVideBtn = document.getElementById("playPinVideBtn");
 // ビデオのview切り替えボタン
 const changeViewBtn = document.getElementById("changeViewBtn");
-const videoFrame = document.getElementById("videoFrame");
 
 const guideUi = document.getElementById("guideUi");
 
@@ -38,8 +39,8 @@ history.replaceState("", "", url.pathname);
 let videoRefList = [];
 const listRef = ref(storage, "videos/" + grade);
 listAll(listRef)
-  .then(async (res) => {
-    res.items.forEach(async (itemRef, index) => {
+  .then((res) => {
+    res.items.forEach((itemRef, index) => {
       videoRefList.push(itemRef);
     });
   })
@@ -47,32 +48,27 @@ listAll(listRef)
     console.error(`動画参照リストの取得に失敗しました: ${error}`);
   });
 
-// ピン止めボタン
+// ViewModeの切り替えボタン
 changeViewBtn.addEventListener("click", () => {
-  changeViewBtn.classList.toggle("ar_view");
-  console.log("click pin btn");
   // viewModeの切り替え
   changeViewMode();
-
-  // 切り替え時にどちらか片方が表示されるようにする
-  pinVideo.classList.toggle("hidden");
-  // videoFrame.classList.toggle('hidden');
-  videoFrame.setAttribute("visible", !videoFrame.getAttribute("visible"));
-  console.log(pinVideo.classList);
-  console.log(videoFrame.classList);
 
   // 表示されている方を再生する
   if (currentViewState === viewStates.isPinView) {
     // Pin
     video.pause();
-    pinVideo.play();
     console.log("pin video on");
   } else {
     // AR
-    pinVideo.pause();
-    if(isFindMarker) video.play();
+    pinVideoFrame.pause();
+    if (isFindMarker) video.play();
     console.log("ar video on");
   }
+});
+
+playPinVideBtn.addEventListener("click", () => {
+  pinVideoFrame.play();
+  playPinVideBtn.classList.add("hidden");
 });
 
 let videoIndex = 0;
@@ -89,8 +85,9 @@ function handleTap() {
     canOpenPresent = true;
     getDownloadURL(videoRefList[videoIndex]).then((url) => {
       console.log("set url:" + url);
-      pinVideo.src = url;
+      pinVideoFrame.src = url;
       video.src = url;
+      // TODO: 時々DOMExceptionエラーが発生する 再現方法不明
       video.play();
     });
   }
@@ -110,22 +107,7 @@ if (isTouchable) {
 const changeNextVideoBtn = document.getElementById("changeNextVideoBtn");
 changeNextVideoBtn.addEventListener("click", () => {
   videoIndex = (videoIndex + 1) % videoRefList.length;
-  getDownloadURL(videoRefList[videoIndex])
-    .then((url) => {
-      pinVideo.src = url;
-      video.src = url;
-      // 表示されている方を再生する
-      if (currentViewState === viewStates.isPinView) {
-        pinVideo.play();
-        console.log("pin video on");
-      } else {
-        video.play();
-        console.log("ar video on");
-      }
-    })
-    .catch((error) => {
-      console.error(`動画URLの取得に失敗しました: ${error}`);
-    });
+  changeVideo(videoIndex);
 });
 
 // 前の動画ボタン
@@ -134,22 +116,40 @@ const changePreviousVideoBtn = document.getElementById(
 );
 changePreviousVideoBtn.addEventListener("click", () => {
   videoIndex = (videoIndex - 1 + videoRefList.length) % videoRefList.length;
+  changeVideo(videoIndex);
+});
+
+// 動画の変更処理
+function changeVideo(videoIndex) {
+  playPinVideBtn.classList.add("hidden");
   getDownloadURL(videoRefList[videoIndex])
     .then((url) => {
-      pinVideo.src = url;
+      pinVideoFrame.src = url;
       video.src = url;
       // 表示されている方を再生する
-      if (currentViewState === viewStates.isPinView) {
-        pinVideo.play();
-        console.log("pin video on");
-      } else {
+      if (currentViewState === viewStates.isArView) {
         video.play();
-        console.log("ar video on");
+        console.log("ar video on" + url);
       }
     })
     .catch((error) => {
       console.error(`動画URLの取得に失敗しました: ${error}`);
     });
+}
+
+// ピン止め動画変更時のボタン表示
+pinVideoFrame.addEventListener("canplay", () => {
+  if (currentViewState === viewStates.isPinView && pinVideoFrame.paused) {
+    playPinVideBtn.classList.remove("hidden");
+  }
+});
+
+// ピン止め動画の再再生
+pinVideoFrame.addEventListener("ended", function () {
+  console.log()
+  if (currentViewState === viewStates.isPinView && pinVideoFrame.paused) {
+    playPinVideBtn.classList.remove("hidden");
+  }
 });
 
 const nft = document.getElementById("nft");
@@ -159,11 +159,11 @@ nft.addEventListener("markerFound", () => {
   isFindMarker = true;
   guideUi.classList.add("hidden");
   if (currentViewState === viewStates.isArView) {
-    playVideBtn.classList.remove("hidden");
     if (canOpenPresent) {
       changeNextVideoBtn.classList.toggle("hidden");
       changePreviousVideoBtn.classList.toggle("hidden");
       changeViewBtn.classList.toggle("hidden");
+      console.log("video.src:" + video.src);
       video.play();
     }
   }
@@ -175,10 +175,7 @@ nft.addEventListener("markerLost", () => {
   if (currentViewState === viewStates.isArView) {
     console.log("nft markerLost");
     video.pause();
-    pinVideo.pause();
-
-    // UI制御
-    playVideBtn.classList.add("hidden");
+    pinVideoFrame.pause();
 
     if (canOpenPresent) {
       changeNextVideoBtn.classList.toggle("hidden");
@@ -188,11 +185,11 @@ nft.addEventListener("markerLost", () => {
   }
 });
 
-
 function changeViewMode() {
   if (currentViewState === viewStates.isArView) {
     // Pin
     currentViewState = viewStates.isPinView;
+    setPinViewUI();
   } else {
     // AR
     currentViewState = viewStates.isArView;
@@ -201,9 +198,18 @@ function changeViewMode() {
   console.log("currentViewState:" + currentViewState);
 }
 
+function setPinViewUI() {
+  changeViewBtn.classList.remove("ar_view");
+  pinVideoFrame.classList.remove("hidden");
+  playPinVideBtn.classList.remove("hidden");
+  arVideoFrame.setAttribute("visible", false);
+}
+
 function setArViewUI() {
-  console.log("setArViewUI: " + isFindMarker)
-  playVideBtn.classList.add("hidden");
+  changeViewBtn.classList.add("ar_view");
+  pinVideoFrame.classList.add("hidden");
+  playPinVideBtn.classList.add("hidden");
+  arVideoFrame.setAttribute("visible", true);
   if (isFindMarker) {
     changeNextVideoBtn.classList.remove("hidden");
     changePreviousVideoBtn.classList.remove("hidden");
