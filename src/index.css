@@ -278,6 +278,13 @@
   background-size: 60%;
 }
 
+.pin_button:active,
+.pin_button:focus, /* 追加 */
+.pin_button:hover {
+  background-color: rgba(255, 255, 255, 0.9); /* 押されたりホバーされたりした際の半透明度を変更 */
+  opacity: 1; /* 押されたりホバーされたりした際の透明度を変更 */
+}
+
 /* 固定後の動画フレーム */
 .pin_video {
   position: fixed;
