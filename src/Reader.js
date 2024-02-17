@@ -18,6 +18,8 @@ let isFindMarker = false;
 
 let url = new URL(window.location.href);
 let grade = url.searchParams.get("grade");
+let personal = url.searchParams.get("personal");
+
 // Debug用
 grade = grade == null ? "B4" : grade;
 
@@ -26,6 +28,7 @@ history.replaceState("", "", url.pathname);
 
 // 動画の参照リストの取得
 let videoRefList = [];
+let videoIndex = 0;
 const listRef = ref(storage, "videos/" + grade);
 listAll(listRef)
   .then(async (res) => {
@@ -36,6 +39,21 @@ listAll(listRef)
   .catch((error) => {
     console.error(`動画参照リストの取得に失敗しました: ${error}`);
   });
+
+if (personal != null) {
+  const personalListRef = ref(storage, "videos/personals/" + personal);
+  listAll(personalListRef)
+    .then((res) => {
+      let personalVideoRefList = [];
+      res.items.forEach((itemRef, index) => {
+        personalVideoRefList.push(itemRef);
+      });
+      videoRefList = videoRefList.concat(personalVideoRefList);
+    })
+    .catch((error) => {
+      console.error(`動画参照リストの取得に失敗しました: ${error}`);
+    });
+}
 
 // ピン止めボタン
 changeViewBtn.addEventListener("click", () => {
@@ -59,8 +77,6 @@ changeViewBtn.addEventListener("click", () => {
     console.log("ar video on");
   }
 });
-
-let videoIndex = 0;
 
 // プレゼント開封で動画の再生開始
 function handleTap() {
