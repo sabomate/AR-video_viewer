@@ -282,14 +282,14 @@
   margin-right: -13px; /* 中央配置の微調整 */
 }
 
-.video_change:active,
+.video_change:ar_view,
 .video_change:hover {
   background-color: rgba(255, 231, 231, 0.9); /* 押されたりホバーされたりした際の半透明度を変更 */
   opacity: 1; /* 押されたりホバーされたりした際の透明度を変更 */
 }
 
 
-.pin_button {
+.change_button {
   cursor: pointer;
   position: fixed;
   width: 6em;
@@ -308,13 +308,13 @@
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* ドロップシャドウを追加 */
 }
 
-.pin_button.active {
+.change_button.ar_view {
   background-image: none; /* ピン画像を非表示 */
   color: #ffffff; /* テキストの色 */
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* アクティブ状態のドロップシャドウ */
 }
 
-.pin_button.active::before {
+.change_button.ar_view::before {
   content: "AR"; /* 表示するテキスト */
   font-size: 32px; /* テキストのサイズ */
   font-weight: bold;
@@ -325,8 +325,8 @@
 }
 
 
-.pin_button:active,
-.pin_button:hover {
+.change_button:ar_view,
+.change_button:hover {
   background-color: rgba(255, 231, 231, 0.9); /* 押されたりホバーされたりした際の半透明度を変更 */
   opacity: 1; /* 押されたりホバーされたりした際の透明度を変更 */
 }

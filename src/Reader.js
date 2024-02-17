@@ -4,8 +4,8 @@ import { storage, ref, getDownloadURL, listAll } from "./firebase.js";
 const video = document.getElementById("arVideo");
 // ピン止め用ビデオ要素
 const pinVideo = document.getElementById("pinVideo");
-// ビデオのピンボタン
-const VideoPinBtn = document.getElementById("VideoPinBtn");
+// ビデオのview切り替えボタン
+const changeViewBtn = document.getElementById("changeViewBtn");
 const videoFrame = document.getElementById("videoFrame");
 
 const guideUi = document.getElementById("guideUi");
@@ -37,12 +37,9 @@ listAll(listRef)
     console.error(`動画参照リストの取得に失敗しました: ${error}`);
   });
 
-VideoPinBtn.addEventListener("click", function() {
-  this.classList.add("active");
-});
-
 // ピン止めボタン
-VideoPinBtn.addEventListener("click", () => {
+changeViewBtn.addEventListener("click", () => {
+  changeViewBtn.classList.toggle("ar_view");
   console.log("click pin btn");
   // 切り替え時にどちらか片方が表示されるようにする
   pinVideo.classList.toggle("hidden");
@@ -73,7 +70,7 @@ function handleTap() {
     document.getElementById("videoFrame").setAttribute("visible", true);
     changeNextVideoBtn.classList.toggle("hidden");
     changePreviousVideoBtn.classList.toggle("hidden");
-    VideoPinBtn.classList.toggle("hidden");
+    changeViewBtn.classList.toggle("hidden");
     canOpenPresent = true;
     video.play();
   }
@@ -151,7 +148,7 @@ nft.addEventListener("markerFound", () => {
   if (canOpenPresent) {
     changeNextVideoBtn.classList.toggle("hidden");
     changePreviousVideoBtn.classList.toggle("hidden");
-    VideoPinBtn.classList.toggle("hidden");
+    changeViewBtn.classList.toggle("hidden");
   }
 });
 
@@ -169,6 +166,6 @@ nft.addEventListener("markerLost", () => {
   if (canOpenPresent) {
     changeNextVideoBtn.classList.toggle("hidden");
     changePreviousVideoBtn.classList.toggle("hidden");
-    VideoPinBtn.classList.toggle("hidden");
+    changeViewBtn.classList.toggle("hidden");
   }
 });
