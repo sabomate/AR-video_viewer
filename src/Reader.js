@@ -20,6 +20,7 @@ const viewStates = {
 let currentViewState = viewStates.isArView;
 
 // プレゼント開封のフラグ
+// TODO: 意味が逆な気がする
 let canOpenPresent = false;
 
 // マーカー認識のフラグ
@@ -62,12 +63,14 @@ changeViewBtn.addEventListener("click", () => {
 
   // 表示されている方を再生する
   if (currentViewState === viewStates.isPinView) {
+    // Pin
     video.pause();
     pinVideo.play();
     console.log("pin video on");
   } else {
+    // AR
     pinVideo.pause();
-    video.play();
+    if(isFindMarker) video.play();
     console.log("ar video on");
   }
 });
@@ -84,9 +87,13 @@ function handleTap() {
     changePreviousVideoBtn.classList.toggle("hidden");
     changeViewBtn.classList.toggle("hidden");
     canOpenPresent = true;
-    video.play();
+    getDownloadURL(videoRefList[videoIndex]).then((url) => {
+      console.log("set url:" + url);
+      pinVideo.src = url;
+      video.src = url;
+      video.play();
+    });
   }
-  video.play();
 }
 
 const isTouchable =
@@ -149,44 +156,61 @@ const nft = document.getElementById("nft");
 // marker発見時のイベント
 nft.addEventListener("markerFound", () => {
   console.log("nft markerFound");
-  guideUi.classList.add("hidden");
-  getDownloadURL(videoRefList[videoIndex]).then((url) => {
-    pinVideo.src = url;
-    video.src = url;
-  });
-  playVideBtn.classList.remove("hidden");
   isFindMarker = true;
-
-  if (canOpenPresent) {
-    changeNextVideoBtn.classList.toggle("hidden");
-    changePreviousVideoBtn.classList.toggle("hidden");
-    changeViewBtn.classList.toggle("hidden");
+  guideUi.classList.add("hidden");
+  if (currentViewState === viewStates.isArView) {
+    playVideBtn.classList.remove("hidden");
+    if (canOpenPresent) {
+      changeNextVideoBtn.classList.toggle("hidden");
+      changePreviousVideoBtn.classList.toggle("hidden");
+      changeViewBtn.classList.toggle("hidden");
+      video.play();
+    }
   }
 });
 
 // marker消失時のイベント
 nft.addEventListener("markerLost", () => {
-  console.log("nft markerLost");
-  // TODO: 再生制御(一旦消します #34でたたかいましょう)
-  // video.pause();
-  // pinVideo.pause();
-
-  // UI制御
-  playVideBtn.classList.add("hidden");
   isFindMarker = false;
+  if (currentViewState === viewStates.isArView) {
+    console.log("nft markerLost");
+    video.pause();
+    pinVideo.pause();
 
-  if (canOpenPresent) {
-    changeNextVideoBtn.classList.toggle("hidden");
-    changePreviousVideoBtn.classList.toggle("hidden");
-    changeViewBtn.classList.toggle("hidden");
+    // UI制御
+    playVideBtn.classList.add("hidden");
+
+    if (canOpenPresent) {
+      changeNextVideoBtn.classList.toggle("hidden");
+      changePreviousVideoBtn.classList.toggle("hidden");
+      changeViewBtn.classList.toggle("hidden");
+    }
   }
 });
 
 
 function changeViewMode() {
   if (currentViewState === viewStates.isArView) {
+    // Pin
     currentViewState = viewStates.isPinView;
   } else {
+    // AR
     currentViewState = viewStates.isArView;
+    setArViewUI();
+  }
+  console.log("currentViewState:" + currentViewState);
+}
+
+function setArViewUI() {
+  console.log("setArViewUI: " + isFindMarker)
+  playVideBtn.classList.add("hidden");
+  if (isFindMarker) {
+    changeNextVideoBtn.classList.remove("hidden");
+    changePreviousVideoBtn.classList.remove("hidden");
+    changeViewBtn.classList.remove("hidden");
+  } else {
+    changeNextVideoBtn.classList.add("hidden");
+    changePreviousVideoBtn.classList.add("hidden");
+    changeViewBtn.classList.add("hidden");
   }
 }
