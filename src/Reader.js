@@ -6,6 +6,11 @@ const arVideoFrame = document.getElementById("videoFrame");
 // ピン止め用ビデオ要素
 const pinVideoFrame = document.getElementById("pinVideo");
 const playPinVideBtn = document.getElementById("playPinVideBtn");
+const openAllVideoViewBtn = document.getElementById("openAllVideoViewBtn");
+const closeAllVideoViewBtn = document.getElementById("closeAllVideoViewBtn");
+openAllVideoViewBtn.classList.remove("hidden");
+closeAllVideoViewBtn.classList.remove("hidden");
+
 // ビデオのview切り替えボタン
 const changeViewBtn = document.getElementById("changeViewBtn");
 
@@ -206,6 +211,25 @@ pinVideoFrame.addEventListener("ended", function () {
     playPinVideBtn.classList.remove("hidden");
   }
 });
+
+const dialog = document.getElementById("dialog");
+
+openAllVideoViewBtn.addEventListener(
+  "click",
+  () => {
+    dialog.classList.add("inview");
+  },
+  false
+);
+
+closeAllVideoViewBtn.addEventListener(
+  "click",
+  () => {
+    dialog.classList.remove("inview");
+  },
+  false
+);
+
 
 const nft = document.getElementById("nft");
 // marker発見時のイベント
