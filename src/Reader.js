@@ -37,6 +37,43 @@ grade = grade == null ? "B4" : grade;
 // URLからクエリパラメータを削除
 history.replaceState("", "", url.pathname);
 
+// 異なるプラットフォームに対応した位置調整
+function adjustPositionForPlatform() {
+  var thumnailText = document.getElementById('thumbnailText');
+  var giftBox = document.getElementById('gift_box');
+  var videoFrame = document.getElementById('videoFrame');
+
+  var screenWidth = window.innerWidth;
+  var screenHeight = window.innerHeight;
+  console.log("画面サイズ：", screenWidth, screenHeight)
+
+  // iOSの場合の位置調整
+  if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+      console.log("IOS")
+      thumnailText.setAttribute('position', '100 2 0');
+      giftBox.setAttribute('position', '180 0 120');
+      videoFrame.setAttribute('position', '180 5 120');
+  }
+  // Androidの場合の位置調整
+  else if (/Android/.test(navigator.userAgent)) {
+      console.log("android OS")
+      thumnailText.setAttribute('position', '0 2 -200');
+      giftBox.setAttribute('position', '0 100 -100');
+      videoFrame.setAttribute('position', '-70 100 -100');
+  }
+  // それ以外（PCなど）の場合の位置調整
+  else {
+      console.log("else OS")
+      thumnailText.setAttribute('position', '0 2 -350');
+      giftBox.setAttribute('position', '330 100 -100');
+      videoFrame.setAttribute('position', '330 100 -100');
+  }
+}
+
+// ページ読み込み時に位置調整を行う
+window.onload = adjustPositionForPlatform;
+
+
 // 動画の参照リストの取得
 let videoRefList = [];
 let videoIndex = 0;
