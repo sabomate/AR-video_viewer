@@ -12,6 +12,9 @@
     <script type="module" src="firebase.js"></script>
     <script type="module" src="Reader.js"></script>
     <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
   </head>
   <body style="margin: 0px; overflow: hidden">
     <div class="arjs-loader">
@@ -65,15 +68,22 @@
         <a-text
           id="thumbnailText"
           value="卒業おめでとう！"
-          font="keifont-msdf.json"
-          font-image="keifont-msdf.png"
+          font="font/keifont-msdf.json"
+          font-image="font/keifont-msdf.png"
           negate="false"
           scale="650 250 125"
           position="180 2 -200"
           rotation="-90 0 0"
           color="#fc6c85">
         </a-text>
-        <a-obj-model id="gift_box" position="330 100 -100" scale="100 100 100" rotation="0 -90 20" src="#crate-obj" mtl="#crate-mtl"></a-obj-model>
+        <a-obj-model
+          id="gift_box"
+          position="330 100 -100"
+          scale="20 20 20"
+          rotation="0 -90 20"
+          src="#crate-obj"
+          mtl="#crate-mtl">
+        </a-obj-model>
         <a-video
           id = "videoFrame"
           src="#arVideo"
@@ -83,32 +93,11 @@
           height="160"
           visible="false"
         ></a-video>
-        <!-- <a-text
-          id="thumbnailText"
-          value="卒業おめでとう！"
-          font="keifont-msdf.json"
-          font-image="keifont-msdf.png"
-          negate="false"
-          scale="200 100 50"
-          position="100 2 0"
-          rotation="-90 0 0"
-          color="#fc6c85">
-        </a-text>
-        <a-obj-model id="gift_box" position="180 0 120" scale="20 20 20" rotation="0 -90 20" src="#crate-obj" mtl="#crate-mtl"></a-obj-model>
-        <a-video
-          id = "videoFrame"
-          src="#arVideo"
-          position="180 5 120"
-          rotation = "-90 0 0"
-          width="90"
-          height="160"
-          visible="false"
-        ></a-video> -->
       </a-nft>
 
       <a-assets timeout="30000">
-        <a-asset-item id="crate-obj" src="gift_box.obj"></a-asset-item>
-        <a-asset-item id="crate-mtl" src="gift_box.mtl"></a-asset-item>
+        <a-asset-item id="crate-obj" src="obj/gift_box.obj"></a-asset-item>
+        <a-asset-item id="crate-mtl" src="obj/gift_box.mtl"></a-asset-item>
         <video
           id="arVideo"
           src="https://www2.yoslab.net/~minari/sample/taga.mp4"

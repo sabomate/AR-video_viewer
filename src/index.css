@@ -6,6 +6,7 @@
 /* ======================================== */
 /* ロード画面 */
 /* ======================================== */
+
 .arjs-loader {
   height: 100vh;
   width: 100vw;
@@ -66,7 +67,7 @@
   100%{
     transform: translate(-50%, -50%) rotate(360deg);
   }
-
+  
 }
 
 .icon{
@@ -82,14 +83,17 @@
   height: 100%;
 }
 
-.main-logo .product-name{
+.main-logo .product-name {
   color: #E56B6B;
   position: absolute;
   top: 65%;
-  left: 50%;
+  left: 57%;
   transform: translate(-50%, -50%);
   width: 8em;
-  font-size: 1.2em;
+  font-size: 1.5em;
+  font-weight: 600;
+  font-family: "Yomogi", cursive; /* フォントファミリーを指定 */
+  font-style: normal;
 }
 
 .buttons {
@@ -117,10 +121,13 @@
 .loading-text{
   position: absolute;
   top: 55%;
-  left: 50%;
+  left: 52%;
   transform: translateX(-50%);
   font-size: 1.2em;
   color: #E56B6B;
+  font-weight: 600;
+  font-family: "Yomogi", cursive; /* フォントファミリーを指定 */
+  font-style: normal;
 }
 
 .copy-text{
@@ -129,6 +136,7 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
 
 /* ======================================== */
 /* 認識待機画面 */
