@@ -11,6 +11,8 @@ const changeViewBtn = document.getElementById("changeViewBtn");
 
 const guideUi = document.getElementById("guideUi");
 
+const camera = document.getElementById("camera");
+
 // 状態列挙
 const viewStates = {
   isArView: "ArView",
@@ -164,10 +166,26 @@ pinVideoFrame.addEventListener("ended", function () {
   }
 });
 
+let check;
 const nft = document.getElementById("nft");
 // marker発見時のイベント
 nft.addEventListener("markerFound", () => {
   console.log("nft markerFound");
+
+  let cameraPosition = camera.object3D.position;
+  let markerPosition = nft.object3D.position;
+  let distance = cameraPosition.distanceTo(markerPosition);
+  check = setInterval(() => {
+    cameraPosition = camera.object3D.position;
+    markerPosition = nft.object3D.position;
+    distance = cameraPosition.distanceTo(markerPosition);
+
+    // do what you want with the distance:
+    console.log(distance);
+  }, 100);
+
+
+
   isFindMarker = true;
   guideUi.classList.add("hidden");
   if (currentViewState === viewStates.isArView) {
@@ -184,6 +202,8 @@ nft.addEventListener("markerFound", () => {
 // marker消失時のイベント
 nft.addEventListener("markerLost", () => {
   isFindMarker = false;
+  clearInterval(check);
+
   if (currentViewState === viewStates.isArView) {
     console.log("nft markerLost");
     video.pause();
