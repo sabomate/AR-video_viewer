@@ -86,7 +86,7 @@ window.onload = adjustPositionForPlatform;
 let contentsList = [];
 let videoIndex = 0;
 const listRef = ref(storage, "videos/" + grade);
-listAll(listRef)
+await listAll(listRef)
   .then(async (res) => {
     const prefixes = res.prefixes;
     for(const prefix of prefixes) {
@@ -111,9 +111,6 @@ listAll(listRef)
       const content = { videoRef: videoRef, thumbnailRef: thumbnailRef, thumbnailUrl: thumbnailUrl};
       contentsList.push(content);
     }
-
-    // サムネイルの表示
-    setAllViewThumbnail(contentsList);
   })
   .catch((error) => {
     console.error(`動画参照リストの取得に失敗しました: ${error}`);
@@ -121,7 +118,7 @@ listAll(listRef)
 
 if (personal != null) {
   const personalListRef = ref(storage, "videos/personals/" + personal);
-  listAll(personalListRef)
+  await listAll(personalListRef)
     .then(async (res) => {    
       const prefixes = res.prefixes;
       for(const prefix of prefixes) {
@@ -153,6 +150,10 @@ if (personal != null) {
       console.error(`動画参照リストの取得に失敗しました: ${error}`);
     });
 }
+
+// サムネイルの表示
+setAllViewThumbnail(contentsList);
+
 
 // ViewModeの切り替えボタン
 changeViewBtn.addEventListener("click", () => {
