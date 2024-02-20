@@ -238,7 +238,6 @@ nft.addEventListener("markerLost", () => {
       changeViewBtn.classList.toggle("hidden");
     } else{
       setTimeout(function() {
-        console.log("ふりだしにもどる")
         guideUi.classList.remove("hidden");
       }, 5000);
     }
