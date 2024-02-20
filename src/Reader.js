@@ -64,9 +64,9 @@ function adjustPositionForPlatform() {
   // それ以外（PCなど）の場合の位置調整
   else {
       console.log("else OS")
-      thumnailText.setAttribute('position', '0 2 -350');
-      giftBox.setAttribute('position', '330 100 -100');
-      videoFrame.setAttribute('position', '330 105 -100');
+      thumnailText.setAttribute('position', '150 2 -250');
+      giftBox.setAttribute('position', '300 100 -100');
+      videoFrame.setAttribute('position', '300 105 -100');
   }
 }
 
