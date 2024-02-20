@@ -122,7 +122,7 @@ changeViewBtn.addEventListener("click", () => {
 });
 
 // プレゼント開封で動画の再生開始
-function handleTap() {
+async function handleTap() {
   if (!isOpenedPresent && isFindMarker) {
     document.getElementById("thumbnailText").setAttribute("visible", false);
     document.getElementById("gift_box").setAttribute("visible", false);
@@ -131,27 +131,35 @@ function handleTap() {
     changePreviousVideoBtn.classList.toggle("hidden");
     changeViewBtn.classList.toggle("hidden");
     isOpenedPresent = true;
-    getDownloadURL(videoRefList[videoIndex]).then((url) => {
+    resetFlagChangeTimeout();
+    try {
+      const url = await getDownloadURL(videoRefList[videoIndex]);
       console.log("set url:" + url);
       pinVideoFrame.src = url;
       video.src = url;
-      // TODO: 時々DOMExceptionエラーが発生する 再現方法不明
-      // TODO: IOSでは自動再生されない
+      // 動画の取得が完了したら再生を開始する
       video.play();
-    });
+    } catch (error) {
+      console.error('動画の取得中にエラーが発生しました:', error);
+    }
   }
 }
 
-// 各OSの開封検知
+// 各OSのプレゼント開封処理
 const isTouchable =
   "ontouchstart" in window ||
   (window.DocumentTouch && document instanceof DocumentTouch);
 
 if (isTouchable) {
-  window.addEventListener("touchstart", handleTap);
+  window.addEventListener("touchstart", async (event) => {
+    await handleTap(event);
+  });
 } else {
-  window.addEventListener("click", handleTap);
+  window.addEventListener("click", async (event) => {
+    await handleTap(event);
+  });
 }
+
 
 // 次の動画ボタン
 const changeNextVideoBtn = document.getElementById("changeNextVideoBtn");
@@ -207,11 +215,16 @@ pinVideoFrame.addEventListener("ended", function () {
   }
 });
 
+// TODO:もっといいやり方あるかも
+// フラグ変化検知用のフラグ
+let flagChangeTimeout;
+
 const nft = document.getElementById("nft");
 // marker発見時のイベント
 nft.addEventListener("markerFound", () => {
   console.log("nft markerFound");
   isFindMarker = true;
+  clearTimeout(flagChangeTimeout);
   guideUi.classList.add("hidden");
   if (currentViewState === viewStates.isArView) {
     if (isOpenedPresent) {
@@ -223,6 +236,22 @@ nft.addEventListener("markerFound", () => {
     }
   }
 });
+
+function checkFlagsAndRemoveHidden() {
+  if (!isFindMarker || !isOpenedPresent) {
+    guideUi.classList.remove("hidden");
+  }
+}
+function startFlagChangeTimeout() {
+  // 5秒後にフラグが変化しなかったらガイドUIを表示
+  flagChangeTimeout = setTimeout(checkFlagsAndRemoveHidden, 5000);
+}
+function resetFlagChangeTimeout() {
+  // フラグが変化したらタイムアウトをクリア
+  clearTimeout(flagChangeTimeout);
+  // タイムアウトを再設定
+  startFlagChangeTimeout();
+}
 
 // marker消失時のイベント
 nft.addEventListener("markerLost", () => {
@@ -236,10 +265,8 @@ nft.addEventListener("markerLost", () => {
       changeNextVideoBtn.classList.toggle("hidden");
       changePreviousVideoBtn.classList.toggle("hidden");
       changeViewBtn.classList.toggle("hidden");
-    } else{
-      setTimeout(function() {
-        guideUi.classList.remove("hidden");
-      }, 5000);
+    } else {
+      startFlagChangeTimeout();
     }
   }
 });
