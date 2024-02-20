@@ -9,6 +9,8 @@ const playPinVideBtn = document.getElementById("playPinVideBtn");
 const openAllVideoViewBtn = document.getElementById("openAllVideoViewBtn");
 const closeAllVideoViewBtn = document.getElementById("closeAllVideoViewBtn");
 
+const changeNextVideoBtn = document.getElementById("changeNextVideoBtn");
+const changePreviousVideoBtn = document.getElementById("changePreviousVideoBtn");
 // ビデオのview切り替えボタン
 const changeViewBtn = document.getElementById("changeViewBtn");
 
@@ -20,8 +22,6 @@ const viewStates = {
   isPinView: "pinView",
 };
 
-// 現在の状態
-let currentViewState = viewStates.isArView;
 
 // プレゼント開封のフラグ
 // TODO: 意味が逆な気がする
@@ -29,6 +29,12 @@ let isOpenedPresent = false;
 
 // マーカー認識のフラグ
 let isFindMarker = false;
+
+// 現在の状態
+let currentViewState = viewStates.isArView;
+setArViewUI();
+arVideoFrame.setAttribute("visible", false);
+
 
 let url = new URL(window.location.href);
 let grade = url.searchParams.get("grade");
@@ -199,14 +205,12 @@ if (isTouchable) {
 }
 
 // 次の動画ボタン
-const changeNextVideoBtn = document.getElementById("changeNextVideoBtn");
 changeNextVideoBtn.addEventListener("click", () => {
   videoIndex = (videoIndex + 1) % contentsList.length;
   changeVideo(videoIndex);
 });
 
 // 前の動画ボタン
-const changePreviousVideoBtn = document.getElementById("changePreviousVideoBtn");
 changePreviousVideoBtn.addEventListener("click", () => {
   videoIndex = (videoIndex - 1 + contentsList.length) % contentsList.length;
   changeVideo(videoIndex);
@@ -322,17 +326,17 @@ function changeViewMode() {
 }
 
 function setPinViewUI() {
-  changeViewBtn.classList.toggle("ar_view");
-  pinVideoFrame.classList.toggle("hidden");
-  playPinVideBtn.classList.toggle("hidden");
+  changeViewBtn.classList.add("ar_view");
+  pinVideoFrame.classList.remove("hidden");
+  playPinVideBtn.classList.remove("hidden");
   openAllVideoViewBtn.classList.remove("hidden");
   arVideoFrame.setAttribute("visible", false);
 }
 
 function setArViewUI() {
-  changeViewBtn.classList.toggle("ar_view");
-  pinVideoFrame.classList.toggle("hidden");
-  playPinVideBtn.classList.toggle("hidden");
+  changeViewBtn.classList.remove("ar_view");
+  pinVideoFrame.classList.add("hidden");
+  playPinVideBtn.classList.add("hidden");
   openAllVideoViewBtn.classList.add("hidden");
   arVideoFrame.setAttribute("visible", true);
   if (isFindMarker) {
