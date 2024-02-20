@@ -8,8 +8,6 @@ const pinVideoFrame = document.getElementById("pinVideo");
 const playPinVideBtn = document.getElementById("playPinVideBtn");
 const openAllVideoViewBtn = document.getElementById("openAllVideoViewBtn");
 const closeAllVideoViewBtn = document.getElementById("closeAllVideoViewBtn");
-openAllVideoViewBtn.classList.remove("hidden");
-closeAllVideoViewBtn.classList.remove("hidden");
 
 // ビデオのview切り替えボタン
 const changeViewBtn = document.getElementById("changeViewBtn");
@@ -79,15 +77,37 @@ function adjustPositionForPlatform() {
 window.onload = adjustPositionForPlatform;
 
 
-// 動画の参照リストの取得
-let videoRefList = [];
+let contentsList = [];
 let videoIndex = 0;
 const listRef = ref(storage, "videos/" + grade);
 listAll(listRef)
-  .then((res) => {
-    res.items.forEach((itemRef, index) => {
-      videoRefList.push(itemRef);
-    });
+  .then(async (res) => {
+    const prefixes = res.prefixes;
+    for(const prefix of prefixes) {
+      let thumbnailRef, videoRef,thumbnailUrl;
+      await listAll(prefix).then(async (result) => {
+        // 動画とサムネイルの参照を取得
+        for(const fileRef of result.items) {
+          let fileType = fileRef.name.split(".").pop();
+          if (fileType === "mp4") {
+            videoRef = fileRef;
+          } else {
+            thumbnailRef = fileRef;
+          }
+        }
+        // サムネイルURLの取得
+        await getDownloadURL(thumbnailRef).then((url) => {
+          thumbnailUrl = url
+        }).catch((error) => {
+          console.error(`サムネイルURLの取得に失敗しました: ${error}`);
+        });
+      });
+      const content = { videoRef: videoRef, thumbnailRef: thumbnailRef, thumbnailUrl: thumbnailUrl};
+      contentsList.push(content);
+    }
+
+    // サムネイルの表示
+    setAllViewThumbnail(contentsList);
   })
   .catch((error) => {
     console.error(`動画参照リストの取得に失敗しました: ${error}`);
@@ -96,12 +116,32 @@ listAll(listRef)
 if (personal != null) {
   const personalListRef = ref(storage, "videos/personals/" + personal);
   listAll(personalListRef)
-    .then((res) => {
-      let personalVideoRefList = [];
-      res.items.forEach((itemRef, index) => {
-        personalVideoRefList.push(itemRef);
-      });
-      videoRefList = videoRefList.concat(personalVideoRefList);
+    .then(async (res) => {    
+      const prefixes = res.prefixes;
+      for(const prefix of prefixes) {
+        let thumbnailRef, videoRef,thumbnailUrl;
+        await listAll(prefix).then(async (result) => {
+          // 動画とサムネイルの参照を取得
+          for(const fileRef of result.items) {
+            let fileType = fileRef.name.split(".").pop();
+            if (fileType === "mp4") {
+              videoRef = fileRef;
+            } else {
+              thumbnailRef = fileRef;
+            }
+          }
+          // サムネイルURLの取得
+          await getDownloadURL(thumbnailRef).then((url) => {
+            thumbnailUrl = url
+            console.log("getDownloadURL");
+          }).catch((error) => {
+            console.error(`サムネイルURLの取得に失敗しました: ${error}`);
+          });
+          console.log("getDownloadURLおーわり");
+        });
+        const content = { videoRef: videoRef, thumbnailRef: thumbnailRef, thumbnailUrl: thumbnailUrl};
+        contentsList.push(content);
+      }
     })
     .catch((error) => {
       console.error(`動画参照リストの取得に失敗しました: ${error}`);
@@ -136,7 +176,7 @@ function handleTap() {
     changePreviousVideoBtn.classList.toggle("hidden");
     changeViewBtn.classList.toggle("hidden");
     isOpenedPresent = true;
-    getDownloadURL(videoRefList[videoIndex]).then((url) => {
+    getDownloadURL(contentsList[videoIndex].videoRef).then((url) => {
       console.log("set url:" + url);
       pinVideoFrame.src = url;
       video.src = url;
@@ -161,21 +201,21 @@ if (isTouchable) {
 // 次の動画ボタン
 const changeNextVideoBtn = document.getElementById("changeNextVideoBtn");
 changeNextVideoBtn.addEventListener("click", () => {
-  videoIndex = (videoIndex + 1) % videoRefList.length;
+  videoIndex = (videoIndex + 1) % contentsList.length;
   changeVideo(videoIndex);
 });
 
 // 前の動画ボタン
 const changePreviousVideoBtn = document.getElementById("changePreviousVideoBtn");
 changePreviousVideoBtn.addEventListener("click", () => {
-  videoIndex = (videoIndex - 1 + videoRefList.length) % videoRefList.length;
+  videoIndex = (videoIndex - 1 + contentsList.length) % contentsList.length;
   changeVideo(videoIndex);
 });
 
 // 動画の変更処理
 function changeVideo(videoIndex) {
   playPinVideBtn.classList.add("hidden");
-  getDownloadURL(videoRefList[videoIndex])
+  getDownloadURL(contentsList[videoIndex].videoRef)
     .then((url) => {
       pinVideoFrame.src = url;
       video.src = url;
@@ -206,7 +246,7 @@ pinVideoFrame.addEventListener("canplay", () => {
 
 // ピン止め動画の再再生
 pinVideoFrame.addEventListener("ended", function () {
-  console.log("movie ended!")
+  console.log("movie ended!");
   if (currentViewState === viewStates.isPinView && pinVideoFrame.paused) {
     playPinVideBtn.classList.remove("hidden");
   }
@@ -229,7 +269,6 @@ closeAllVideoViewBtn.addEventListener(
   },
   false
 );
-
 
 const nft = document.getElementById("nft");
 // marker発見時のイベント
@@ -286,6 +325,7 @@ function setPinViewUI() {
   changeViewBtn.classList.toggle("ar_view");
   pinVideoFrame.classList.toggle("hidden");
   playPinVideBtn.classList.toggle("hidden");
+  openAllVideoViewBtn.classList.remove("hidden");
   arVideoFrame.setAttribute("visible", false);
 }
 
@@ -293,6 +333,7 @@ function setArViewUI() {
   changeViewBtn.classList.toggle("ar_view");
   pinVideoFrame.classList.toggle("hidden");
   playPinVideBtn.classList.toggle("hidden");
+  openAllVideoViewBtn.classList.add("hidden");
   arVideoFrame.setAttribute("visible", true);
   if (isFindMarker) {
     changeNextVideoBtn.classList.remove("hidden");
@@ -303,4 +344,22 @@ function setArViewUI() {
     changePreviousVideoBtn.classList.add("hidden");
     changeViewBtn.classList.add("hidden");
   }
+}
+
+function setAllViewThumbnail(theContentsList) {
+  const allVideView = document.getElementById("allVideoView");
+  theContentsList.forEach((content, index) => {
+    const imgBtn = document.createElement("button");
+    imgBtn.value = index;
+    imgBtn.addEventListener("click", () => {
+      videoIndex = index;
+      console.log("click:" + index);
+      changeVideo(index);
+      dialog.classList.remove("inview");
+    });
+    const img = document.createElement("img");
+    img.src = content.thumbnailUrl;
+    imgBtn.appendChild(img);
+    allVideView.appendChild(imgBtn);
+  });
 }
