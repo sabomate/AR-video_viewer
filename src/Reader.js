@@ -22,7 +22,7 @@ let currentViewState = viewStates.isArView;
 
 // プレゼント開封のフラグ
 // TODO: 意味が逆な気がする
-let canOpenPresent = false;
+let isOpenedPresent = false;
 
 // マーカー認識のフラグ
 let isFindMarker = false;
@@ -123,14 +123,14 @@ changeViewBtn.addEventListener("click", () => {
 
 // プレゼント開封で動画の再生開始
 function handleTap() {
-  if (!canOpenPresent && isFindMarker) {
+  if (!isOpenedPresent && isFindMarker) {
     document.getElementById("thumbnailText").setAttribute("visible", false);
     document.getElementById("gift_box").setAttribute("visible", false);
     document.getElementById("videoFrame").setAttribute("visible", true);
     changeNextVideoBtn.classList.toggle("hidden");
     changePreviousVideoBtn.classList.toggle("hidden");
     changeViewBtn.classList.toggle("hidden");
-    canOpenPresent = true;
+    isOpenedPresent = true;
     getDownloadURL(videoRefList[videoIndex]).then((url) => {
       console.log("set url:" + url);
       pinVideoFrame.src = url;
@@ -214,7 +214,7 @@ nft.addEventListener("markerFound", () => {
   isFindMarker = true;
   guideUi.classList.add("hidden");
   if (currentViewState === viewStates.isArView) {
-    if (canOpenPresent) {
+    if (isOpenedPresent) {
       changeNextVideoBtn.classList.toggle("hidden");
       changePreviousVideoBtn.classList.toggle("hidden");
       changeViewBtn.classList.toggle("hidden");
@@ -232,10 +232,15 @@ nft.addEventListener("markerLost", () => {
     video.pause();
     pinVideoFrame.pause();
 
-    if (canOpenPresent) {
+    if (isOpenedPresent) {
       changeNextVideoBtn.classList.toggle("hidden");
       changePreviousVideoBtn.classList.toggle("hidden");
       changeViewBtn.classList.toggle("hidden");
+    } else{
+      setTimeout(function() {
+        console.log("ふりだしにもどる")
+        guideUi.classList.remove("hidden");
+      }, 5000);
     }
   }
 });
