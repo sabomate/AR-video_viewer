@@ -359,3 +359,120 @@
   aspect-ratio: 9 / 16; /* 縦横比を縦長に保つための設定 */
   overflow: hidden;
 }
+
+
+/* ======================================== */
+/* 一覧表示 */
+/* ======================================== */
+
+/* 一覧表示ボタン */
+#openAllVideoViewBtn{
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  width: 6em;
+  height: 6em;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 231, 231, 0.7);
+  background: url('img/all_video_btn_icon.png') center/contain no-repeat;
+  background-color: rgba(255, 231, 231, 0.7);
+  z-index: 100;
+  -webkit-appearance: none;
+  cursor: pointer;
+  border: none;
+  background-size: 50%;
+  &:hover {
+      cursor: pointer;
+      color: #fefefe;
+    }
+}
+
+#dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(3px);
+  z-index: 400;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s, opacity 0.3s;
+
+  &.inview {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.dialog-window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85vw;
+  height: 85vh;
+  padding: 2rem 1rem;
+  /* padding: 2rem; */
+  text-align: center;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background-color: #EBDBDF;
+  z-index: 1;
+}
+
+#closeAllVideoViewBtn {
+  position: absolute;
+  top: 1.5em;
+  right: 1.5em;
+  width: 5em;
+  height: 5em;
+  
+  border-radius: 50%;
+  background: url('img/close_icon.png') center/contain no-repeat;
+  background-color: rgba(255, 231, 231, 1);
+  /* background-color: rgba(255, 231, 231, 0.7); */
+  z-index: 100;
+  -webkit-appearance: none;
+  cursor: pointer;
+  border: none;
+  background-size: 50%;
+  transition: color 0.3s, background-color 0.3s;
+  
+  &:hover {
+    cursor: pointer;
+    color: #fefefe;
+  }
+}
+#allVideoView{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-content: baseline;
+  justify-content: space-between;
+  overflow: scroll;
+}
+
+#allVideoView button{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  appearance: none;
+  width:32%;
+}
+#allVideoView img{
+  width: 100%;
+}
+
+#allVideoView::after {
+  content: "";
+  display: block;
+  width: 32%;
+}
