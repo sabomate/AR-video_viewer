@@ -122,7 +122,7 @@ changeViewBtn.addEventListener("click", () => {
 });
 
 // プレゼント開封で動画の再生開始
-async function handleTap() {
+function handleTap() {
   if (!isOpenedPresent && isFindMarker) {
     document.getElementById("thumbnailText").setAttribute("visible", false);
     document.getElementById("gift_box").setAttribute("visible", false);
@@ -133,31 +133,22 @@ async function handleTap() {
     isOpenedPresent = true;
     resetFlagChangeTimeout();
     try {
-      const url = await getDownloadURL(videoRefList[videoIndex]);
-      console.log("set url:" + url);
-      pinVideoFrame.src = url;
-      video.src = url;
-      // 動画の取得が完了したら再生を開始する
-      video.play();
+      changeVideo(videoIndex);
     } catch (error) {
       console.error('動画の取得中にエラーが発生しました:', error);
     }
   }
 }
 
-// 各OSのプレゼント開封処理
+// 各OSの開封検知
 const isTouchable =
   "ontouchstart" in window ||
   (window.DocumentTouch && document instanceof DocumentTouch);
 
 if (isTouchable) {
-  window.addEventListener("touchstart", async (event) => {
-    await handleTap(event);
-  });
+  window.addEventListener("touchstart", handleTap);
 } else {
-  window.addEventListener("click", async (event) => {
-    await handleTap(event);
-  });
+  window.addEventListener("click", handleTap);
 }
 
 
