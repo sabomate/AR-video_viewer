@@ -14,7 +14,7 @@ const changeViewBtn = document.getElementById("changeViewBtn");
 
 const guideUi = document.getElementById("guideUi");
 
-const playVideoBtn = document.getElementById("playVideoBtn");
+const firstPlayVideoBtn = document.getElementById("playVideoBtn");
 
 // 状態列挙
 const viewStates = {
@@ -189,7 +189,7 @@ function handleTap() {
   }
 }
 
-playVideoBtn.addEventListener("click", () => {
+firstPlayVideoBtn.addEventListener("click", () => {
   handleTap();
 });
 
@@ -277,7 +277,7 @@ nft.addEventListener("markerFound", () => {
   isFindMarker = true;
   clearTimeout(flagChangeTimeout);
   guideUi.classList.add("hidden");
-  playVideoBtn.classList.remove("hidden")
+  firstPlayVideoBtn.classList.remove("hidden")
   if (currentViewState === viewStates.isArView) {
     if (isOpenedPresent) {
       changeNextVideoBtn.classList.toggle("hidden");
