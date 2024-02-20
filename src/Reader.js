@@ -16,6 +16,8 @@ const changeViewBtn = document.getElementById("changeViewBtn");
 
 const guideUi = document.getElementById("guideUi");
 
+const firstPlayVideoBtn = document.getElementById("playVideoBtn");
+
 // 状態列挙
 const viewStates = {
   isArView: "ArView",
@@ -122,7 +124,7 @@ listAll(listRef)
 if (personal != null) {
   const personalListRef = ref(storage, "videos/personals/" + personal);
   listAll(personalListRef)
-    .then(async (res) => {    
+    .then(async (res) => {
       const prefixes = res.prefixes;
       for(const prefix of prefixes) {
         let thumbnailRef, videoRef,thumbnailUrl;
@@ -193,16 +195,10 @@ function handleTap() {
   }
 }
 
-// 各OSの開封検知
-const isTouchable =
-  "ontouchstart" in window ||
-  (window.DocumentTouch && document instanceof DocumentTouch);
+firstPlayVideoBtn.addEventListener("click", () => {
+  handleTap();
+});
 
-if (isTouchable) {
-  window.addEventListener("touchstart", handleTap);
-} else {
-  window.addEventListener("click", handleTap);
-}
 
 // 次の動画ボタン
 changeNextVideoBtn.addEventListener("click", () => {
@@ -274,12 +270,18 @@ closeAllVideoViewBtn.addEventListener(
   false
 );
 
+// TODO:もっといいやり方あるかも
+// フラグ変化検知用のフラグ
+let flagChangeTimeout;
+
 const nft = document.getElementById("nft");
 // marker発見時のイベント
 nft.addEventListener("markerFound", () => {
   console.log("nft markerFound");
   isFindMarker = true;
+  clearTimeout(flagChangeTimeout);
   guideUi.classList.add("hidden");
+  firstPlayVideoBtn.classList.remove("hidden")
   if (currentViewState === viewStates.isArView) {
     if (isOpenedPresent) {
       changeNextVideoBtn.classList.toggle("hidden");
@@ -290,6 +292,16 @@ nft.addEventListener("markerFound", () => {
     }
   }
 });
+
+function checkFlagsAndRemoveHidden() {
+  if (!isFindMarker && !isOpenedPresent) {
+    guideUi.classList.remove("hidden");
+  }
+}
+function startFlagChangeTimeout() {
+  // 5秒後にフラグが変化しなかったらガイドUIを表示
+  flagChangeTimeout = setTimeout(checkFlagsAndRemoveHidden, 5000);
+}
 
 // marker消失時のイベント
 nft.addEventListener("markerLost", () => {
@@ -303,10 +315,8 @@ nft.addEventListener("markerLost", () => {
       changeNextVideoBtn.classList.toggle("hidden");
       changePreviousVideoBtn.classList.toggle("hidden");
       changeViewBtn.classList.toggle("hidden");
-    } else{
-      setTimeout(function() {
-        guideUi.classList.remove("hidden");
-      }, 5000);
+    } else {
+      startFlagChangeTimeout();
     }
   }
 });
