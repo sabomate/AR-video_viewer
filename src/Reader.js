@@ -50,23 +50,23 @@ function adjustPositionForPlatform() {
   // iOSの場合の位置調整
   if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
       console.log("IOS")
-      thumnailText.setAttribute('position', '100 2 0');
-      giftBox.setAttribute('position', '180 0 120');
-      videoFrame.setAttribute('position', '180 5 120');
+      thumnailText.setAttribute('position', '50 -132 -50');
+      giftBox.setAttribute('position', '180 -130 120');
+      videoFrame.setAttribute('position', '180 55 150');
   }
   // Androidの場合の位置調整
   else if (/Android/.test(navigator.userAgent)) {
       console.log("android OS")
-      thumnailText.setAttribute('position', '0 2 -200');
-      giftBox.setAttribute('position', '0 100 -100');
-      videoFrame.setAttribute('position', '-70 100 -100');
+      thumnailText.setAttribute('position', '20 2 -400');
+      giftBox.setAttribute('position', '150 100 -200');
+      videoFrame.setAttribute('position', '150 155 -300');
   }
   // それ以外（PCなど）の場合の位置調整
   else {
       console.log("else OS")
-      thumnailText.setAttribute('position', '0 2 -350');
-      giftBox.setAttribute('position', '330 100 -100');
-      videoFrame.setAttribute('position', '330 100 -100');
+      thumnailText.setAttribute('position', '150 2 -250');
+      giftBox.setAttribute('position', '300 100 -100');
+      videoFrame.setAttribute('position', '300 105 -100');
   }
 }
 
@@ -137,6 +137,7 @@ function handleTap() {
       pinVideoFrame.src = url;
       video.src = url;
       // TODO: 時々DOMExceptionエラーが発生する 再現方法不明
+      // TODO: IOSでは自動再生されない
       video.play();
     });
   }

@@ -121,7 +121,7 @@
 .loading-text{
   position: absolute;
   top: 55%;
-  left: 52%;
+  left: 50%;
   transform: translateX(-50%);
   font-size: 1.2em;
   color: #E56B6B;
