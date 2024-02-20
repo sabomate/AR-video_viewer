@@ -290,19 +290,13 @@ nft.addEventListener("markerFound", () => {
 });
 
 function checkFlagsAndRemoveHidden() {
-  if (!isFindMarker || !isOpenedPresent) {
+  if (!isFindMarker && !isOpenedPresent) {
     guideUi.classList.remove("hidden");
   }
 }
 function startFlagChangeTimeout() {
   // 5秒後にフラグが変化しなかったらガイドUIを表示
   flagChangeTimeout = setTimeout(checkFlagsAndRemoveHidden, 5000);
-}
-function resetFlagChangeTimeout() {
-  // フラグが変化したらタイムアウトをクリア
-  clearTimeout(flagChangeTimeout);
-  // タイムアウトを再設定
-  startFlagChangeTimeout();
 }
 
 // marker消失時のイベント
