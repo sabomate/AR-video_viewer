@@ -14,6 +14,8 @@ const changeViewBtn = document.getElementById("changeViewBtn");
 
 const guideUi = document.getElementById("guideUi");
 
+const playVideoBtn = document.getElementById("playVideoBtn");
+
 // 状態列挙
 const viewStates = {
   isArView: "ArView",
@@ -116,7 +118,7 @@ listAll(listRef)
 if (personal != null) {
   const personalListRef = ref(storage, "videos/personals/" + personal);
   listAll(personalListRef)
-    .then(async (res) => {    
+    .then(async (res) => {
       const prefixes = res.prefixes;
       for(const prefix of prefixes) {
         let thumbnailRef, videoRef,thumbnailUrl;
@@ -187,16 +189,9 @@ function handleTap() {
   }
 }
 
-// 各OSの開封検知
-const isTouchable =
-  "ontouchstart" in window ||
-  (window.DocumentTouch && document instanceof DocumentTouch);
-
-if (isTouchable) {
-  window.addEventListener("touchstart", handleTap);
-} else {
-  window.addEventListener("click", handleTap);
-}
+playVideoBtn.addEventListener("click", () => {
+  handleTap();
+});
 
 
 // 次の動画ボタン
@@ -282,6 +277,7 @@ nft.addEventListener("markerFound", () => {
   isFindMarker = true;
   clearTimeout(flagChangeTimeout);
   guideUi.classList.add("hidden");
+  playVideoBtn.classList.remove("hidden")
   if (currentViewState === viewStates.isArView) {
     if (isOpenedPresent) {
       changeNextVideoBtn.classList.toggle("hidden");
