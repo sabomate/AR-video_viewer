@@ -68,7 +68,7 @@ grade = (grade == "M2") ? "M1" : grade;
 
 // 異なるプラットフォームに対応した位置調整
 function adjustPositionForPlatform() {
-  var thumnailText = document.getElementById('thumbnailText');
+  var thumbnailText = document.getElementById('thumbnailText');
   var giftBox = document.getElementById('gift_box');
   var videoFrame = document.getElementById('videoFrame');
 
@@ -80,7 +80,7 @@ function adjustPositionForPlatform() {
   if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
       console.log("IOS");
       deviceType = "IOS";
-      thumnailText.setAttribute('position', '50 -132 -50');
+      thumbnailText.setAttribute('position', '50 -132 -50');
       giftBox.setAttribute('position', '180 -130 120');
       videoFrame.setAttribute('position', '180 55 150');
     }
@@ -88,7 +88,7 @@ function adjustPositionForPlatform() {
   else if (/Android/.test(navigator.userAgent)) {
       console.log("android OS");
       deviceType = "android";
-      thumnailText.setAttribute('position', '20 2 -400');
+      thumbnailText.setAttribute('position', '20 2 -400');
       giftBox.setAttribute('position', '150 100 -200');
       videoFrame.setAttribute('position', '150 155 -300');
   }
@@ -96,7 +96,7 @@ function adjustPositionForPlatform() {
   else {
       console.log("else OS");
       deviceType = "PC";
-      thumnailText.setAttribute('position', '150 2 -250');
+      thumbnailText.setAttribute('position', '150 2 -250');
       giftBox.setAttribute('position', '300 100 -100');
       videoFrame.setAttribute('position', '300 105 -100');
   }
