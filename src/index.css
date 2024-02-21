@@ -208,7 +208,7 @@
 }
 
 /* 最初限りの再生ボタン */
-.video_play {
+.first_video_play {
   cursor: pointer;
   position: fixed;
   top: 0;
@@ -219,6 +219,38 @@
   border: none;
   outline: none;
   z-index: 100;
+}
+
+/* 再生ボタン */
+.video_play {
+  cursor: pointer;
+  position: absolute;
+  width: 8em;
+  height: 8em;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 0.4em solid currentColor;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #333;
+  font-size: 10px;
+  z-index: 100;
+}
+
+.video_play::after {
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  transform: translateY(-50%);
+  width: 0px;
+  height: 0px;
+  border: 2em solid transparent;
+  border-left: 3em solid currentColor;
+  box-sizing: border-box;
+  content: "";
+  cursor: pointer;
+  pointer-events: none;
 }
 
 
