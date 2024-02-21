@@ -13,6 +13,7 @@
   -webkit-appearance: none;
   cursor: pointer;
   border: none;
+  box-shadow: 0px 10px 10px -6px rgba(0, 0, 0, 0.3);
   &:hover {
     cursor: pointer;
     color: #fefefe;
@@ -317,41 +318,25 @@
   margin-right: -13px; /* 中央配置の微調整 */
 }
 
-.video_change:ar_view,
-.video_change:hover {
-  background-color: rgba(255, 231, 231, 0.9); /* 押されたりホバーされたりした際の半透明度を変更 */
-  opacity: 1; /* 押されたりホバーされたりした際の透明度を変更 */
-}
-
-
 .change_button {
-  cursor: pointer;
-  position: fixed;
-  width: 6em;
-  height: 6em;
   top: 10px;
   right: 10px; /* 右上に配置 */
-  border: none; /* ボーダーは不要 */
-  border-radius: 50%;
   background: url('img/pin_white.png') center/contain no-repeat; /* ピンのイラストのパスを指定 */
-  background-color: rgba(255, 231, 231, 0.7); /* 半透明にする */
-  color: transparent; /* テキストを透明にする */
-  font-size: 10px;
+  background-color: rgba(255, 231, 231, 0.7);
+  background-size: 50%;
   z-index: 100;
-  opacity: 0.8; /* 0から1までの値で透明度を指定 */
-  background-size: 60%;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* ドロップシャドウを追加 */
 }
 
-.change_button.ar_view {
-  background-image: none; /* ピン画像を非表示 */
-  color: #ffffff; /* テキストの色 */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* アクティブ状態のドロップシャドウ */
+.ar_view {
+  background-image: none;
+  color: #fff;
+  background-color: rgba(255, 231, 231, 0.7);
+  box-shadow: 0px 10px 10px -6px rgba(0, 0, 0, 0.3);
 }
 
-.change_button.ar_view::before {
-  content: "AR"; /* 表示するテキスト */
-  font-size: 32px; /* テキストのサイズ */
+#changeViewBtn.ar_view::before {
+  content: "AR"; 
+  font-size: 32px;
   font-weight: bold;
   position: absolute; /* 絶対位置指定 */
   top: 50%; /* 上端を中央に */
@@ -359,12 +344,6 @@
   transform: translate(-50%, -50%); /* 中央揃え */
 }
 
-
-.change_button:ar_view,
-.change_button:hover {
-  background-color: rgba(255, 231, 231, 0.9); /* 押されたりホバーされたりした際の半透明度を変更 */
-  opacity: 1; /* 押されたりホバーされたりした際の透明度を変更 */
-}
 
 /* 固定後の動画フレーム */
 .pin_video {
@@ -385,6 +364,7 @@
   transform: translate(-50%, -50%);
   aspect-ratio: 9 / 16; /* 縦横比を縦長に保つための設定 */
   overflow: hidden;
+  box-shadow: 0px 10px 10px -6px rgba(0, 0, 0, 0.3);
 }
 
 .pin_thumbnail {
@@ -405,21 +385,13 @@
 /* ======================================== */
 
 /* 一覧表示ボタン */
-#openAllVideoViewBtn{
+.all_video_btn{
   position: absolute;
   bottom: 10px;
   left: 50%;
-  width: 6em;
-  height: 6em;
-  border-radius: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(255, 231, 231, 0.7);
   background: url('img/all_video_btn_icon.png') center/contain no-repeat;
   background-color: rgba(255, 231, 231, 0.7);
-  z-index: 100;
-  -webkit-appearance: none;
-  cursor: pointer;
-  border: none;
   background-size: 50%;
   &:hover {
       cursor: pointer;
@@ -456,31 +428,19 @@
   border: none;
   border-radius: 0.5rem;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  background-color: #EBDBDF;
+  background-color: #FFF8F8;
   z-index: 800;
 }
 
-.close_dialog {
+.close_dialog_btn {
   position: absolute;
   top: 1.5em;
   right: 1.5em;
-  width: 5em;
-  height: 5em;
   
-  border-radius: 50%;
   background: url('img/close_icon.png') center/contain no-repeat;
   background-color: rgba(255, 231, 231, 1);
-  z-index: 100;
-  -webkit-appearance: none;
-  cursor: pointer;
-  border: none;
   background-size: 50%;
   transition: color 0.3s, background-color 0.3s;
-  
-  &:hover {
-    cursor: pointer;
-    color: #fefefe;
-  }
 }
 #allVideoView{
   width: 100%;
@@ -502,6 +462,7 @@
   appearance: none;
   width:32%;
 }
+
 #allVideoView img{
   width: 100%;
 }
@@ -512,12 +473,99 @@
   width: 32%;
 }
 
-/* 説明ボタン */
+/* ======================================== */
+/* 説明画面 */
+/* ======================================== */
 .explain_btn{
   top: 10px;
   left: 10px;
-  /* クエスチョンマークのやつが入る気がする */
-  background: url('img/all_video_btn_icon.png') center/contain no-repeat;
-  background-size: 50%;
-  background-color: rgba(255, 231, 231, 0.7);
+}
+
+.explain_btn::before {
+  color: #fff; /* テキストの色 */
+  content: "?"; /* 表示するテキスト */
+  font-size: 32px; /* テキストのサイズ */
+  font-weight: bold;
+  position: absolute; /* 絶対位置指定 */
+  top: 50%; /* 上端を中央に */
+  left: 50%; /* 左端を中央に */
+  transform: translate(-50%, -50%); /* 中央揃え */
+}
+
+
+.dialog_sakura{
+  position: absolute;
+  top: 0;
+  left:0;
+}
+
+.explain_section{
+  padding: 0.8em;
+  background-color: #FFF8F8;
+}
+
+.explain_section>p{
+  font-size: 2em;
+  color: #FF9E9E;
+  font-style: bold;
+  margin: 10px 0;
+}
+
+.explain_sample_btn{
+  width: 5em;
+  height: 5em;
+  position: absolute;
+}
+
+.explain_sample_btn.ar_view::before{
+  content: "AR"; 
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 5rem;
+}
+
+.how_to_use_section>.explain_container{
+  background-color: #FFC3C3;
+  border-radius: 0.5em;
+  color: #fff;
+  font-size: 1.1em;
+}
+
+.how_to_use_section>.explain_container>div{
+  width: 200px;
+  margin: 0 auto;
+}
+
+.explain_container{
+  padding: 0.7em;
+  border-radius: 0.5em;
+}
+
+.explain_btn_card{
+  background-color: #FFC3C3;
+  display: flex;
+  align-items: center;
+  border-radius: 0.5em;
+  margin-bottom: 10px;
+}
+.explain_btn_wrapper{
+  width: 30%;
+  padding: 1em;
+}
+.explain_btn_wrapper>div{
+  position: static;
+  transform: none;
+  margin: 0 auto;
+}
+.explain_btn_wrapper>p{
+  color: #fff;
+  font-size: 1.1em;
+  margin: 0;
+}
+
+.explain_btn_card>p{
+  color: #fff;
+  font-size: 1.4em;
+  margin: 0;
 }
