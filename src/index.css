@@ -2,6 +2,23 @@
   display: none;
 }
 
+/* ボタンデザイン */
+.btn{
+  position: absolute;
+  width: 6em;
+  height: 6em;
+  border-radius: 50%;
+  background-color: rgba(255, 231, 231, 0.7);
+  z-index: 100;
+  -webkit-appearance: none;
+  cursor: pointer;
+  border: none;
+  &:hover {
+    cursor: pointer;
+    color: #fefefe;
+  }
+}
+
 
 /* ======================================== */
 /* ロード画面 */
@@ -153,16 +170,17 @@
 .sakura-top{
   position: absolute;
   top: 0;
-  left: 0;
+  right:0;
   opacity: 100%;
+  transform: scale(-1, 1);
 }
 
 .sakura-bottom{
   position: absolute;
   bottom: 0;
-  right: 0;
+  left: 0;
   opacity: 100%;
-  transform: rotateZ(180deg);
+  transform: scale(1, -1);
 }
 
 .guide{
@@ -255,11 +273,7 @@
 
 
 .video_change {
-  position: absolute;
   bottom: 10px;
-  width: 6em;
-  height: 6em;
-  border-radius: 50%; /* 角丸 */
   transform: translateY(-50%);
   background-color: rgba(255, 231, 231, 0.7);
   z-index: 100;
@@ -413,7 +427,7 @@
     }
 }
 
-#dialog {
+.dialog {
   position: fixed;
   top: 0;
   left: 0;
@@ -446,7 +460,7 @@
   z-index: 800;
 }
 
-#closeAllVideoViewBtn {
+.close_dialog {
   position: absolute;
   top: 1.5em;
   right: 1.5em;
@@ -496,4 +510,14 @@
   content: "";
   display: block;
   width: 32%;
+}
+
+/* 説明ボタン */
+.explain_btn{
+  top: 10px;
+  left: 10px;
+  /* クエスチョンマークのやつが入る気がする */
+  background: url('img/all_video_btn_icon.png') center/contain no-repeat;
+  background-size: 50%;
+  background-color: rgba(255, 231, 231, 0.7);
 }

@@ -28,6 +28,7 @@
     </div>
 
     <div class="ui">
+      <button type="button" id="openExplanationViewBtn" class="btn explain_btn"></button>
       <div id="guideUi">
         <div><img class="back-sakura sakura-top" src="img/sakura.png" alt=""></div>
         <div><img class="back-sakura sakura-bottom" src="img/sakura.png" alt=""></div>
@@ -37,8 +38,8 @@
         </div>
       </div>
       <button type="button" id="playVideoBtn" class="first_video_play hidden"></button>
-      <button type="button" id="changeNextVideoBtn" class="video_change left_btn hidden"></button>
-      <button type="button" id="changePreviousVideoBtn" class="video_change right_btn hidden"></button>
+      <button type="button" id="changeNextVideoBtn" class="video_change left_btn btn hidden"></button>
+      <button type="button" id="changePreviousVideoBtn" class="video_change right_btn btn hidden"></button>
       <button type="button" id="changeViewBtn" class="change_button hidden"></button>
     </div>
 
@@ -49,10 +50,19 @@
       <img id="pinThumbnail" src="img/sakura.png" class="pin_thumbnail hidden"></img>
       <video id="pinVideo" src="https://www2.yoslab.net/~minari/sample/taga.mp4" class="pin_video hidden"></video>
     </div>
-    <div id="dialog" class="hidden_dialog">
+    <div id="allVideoViewDialog" class="dialog hidden_dialog">
       <div class="dialog-window">
-        <button id="closeAllVideoViewBtn"></button>
+        <button id="closeAllVideoViewBtn" class="close_dialog"></button>
         <div id="allVideoView">
+        </div>
+      </div>
+    </div>
+
+    <div id="explanationViewDialog" class="dialog">
+      <div class="dialog-window">
+        <button id="closeExplanationViewBtn" class="btn close_dialog"></button>
+        <div id="explanationView">
+          <!-- 説明画面 -->
         </div>
       </div>
     </div>
