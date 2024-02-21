@@ -18,10 +18,19 @@ body {
   cursor: pointer;
   border: none;
   box-shadow: 0px 10px 10px -6px rgba(0, 0, 0, 0.3);
+  transition: 0.3s;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   &:hover {
     cursor: pointer;
     color: #fefefe;
   }
+}
+
+.btn:active{
+  background-color: rgb(228, 154, 154);
 }
 
 /* ======================================== */
