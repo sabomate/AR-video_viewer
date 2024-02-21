@@ -119,6 +119,7 @@ await listAll(listRef)
       const content = { videoRef: videoRef, thumbnailRef: thumbnailRef, thumbnailUrl: thumbnailUrl};
       contentsList.push(content);
     }
+    contentsList.sort(() => Math.random() - 0.5);
   })
   .catch((error) => {
     console.error(`動画参照リストの取得に失敗しました: ${error}`);
