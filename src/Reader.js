@@ -5,6 +5,7 @@ const video = document.getElementById("arVideo");
 const arVideoFrame = document.getElementById("videoFrame");
 // ピン止め用ビデオ要素
 const pinVideoFrame = document.getElementById("pinVideo");
+const pinThumbnail = document.getElementById("pinThumbnail");
 const playPinVideBtn = document.getElementById("playPinVideBtn");
 const openAllVideoViewBtn = document.getElementById("openAllVideoViewBtn");
 const closeAllVideoViewBtn = document.getElementById("closeAllVideoViewBtn");
@@ -193,6 +194,7 @@ function handleTap() {
     getDownloadURL(contentsList[videoIndex].videoRef).then((url) => {
       console.log("set url:" + url);
       pinVideoFrame.src = url;
+      pinThumbnail.src = contentsList[videoIndex].thumbnailUrl;
       video.src = url;
       // TODO: 時々DOMExceptionエラーが発生する 再現方法不明
       // TODO: IOSでは自動再生されない
@@ -220,10 +222,12 @@ changePreviousVideoBtn.addEventListener("click", () => {
 
 // 動画の変更処理
 function changeVideo(videoIndex) {
+  pinThumbnail.classList.add("hidden");
   playPinVideBtn.classList.add("hidden");
   getDownloadURL(contentsList[videoIndex].videoRef)
     .then((url) => {
       pinVideoFrame.src = url;
+      pinThumbnail.src = contentsList[videoIndex].thumbnailUrl;
       video.src = url;
       // 表示されている方を再生する
       if (currentViewState === viewStates.isArView) {
@@ -238,6 +242,7 @@ function changeVideo(videoIndex) {
 
 // ピン状態の再生処理
 playPinVideBtn.addEventListener("click", () => {
+  pinThumbnail.classList.add("hidden");
   pinVideoFrame.play();
   if(!deviceType==="IOS"){
     playPinVideBtn.classList.add("hidden");
@@ -248,6 +253,7 @@ playPinVideBtn.addEventListener("click", () => {
 pinVideoFrame.addEventListener("loadedmetadata", () => {
   console.log("video metadata loaded");
   if (currentViewState === viewStates.isPinView && pinVideoFrame.paused) {
+    pinThumbnail.classList.remove("hidden");
     playPinVideBtn.classList.remove("hidden");
   }
 });
@@ -288,8 +294,8 @@ const nft = document.getElementById("nft");
 nft.addEventListener("markerFound", () => {
   console.log("nft markerFound");
   isFindMarker = true;
-  clearTimeout(flagChangeTimeout);
   guideUi.classList.add("hidden");
+  clearTimeout(flagChangeTimeout);
   if (currentViewState === viewStates.isArView) {
     if (isOpenedPresent) {
       changeNextVideoBtn.classList.toggle("hidden");
@@ -348,6 +354,7 @@ function changeViewMode() {
 function setPinViewUI() {
   changeViewBtn.classList.add("ar_view");
   pinVideoFrame.classList.remove("hidden");
+  pinThumbnail.classList.remove("hidden");
   playPinVideBtn.classList.remove("hidden");
   openAllVideoViewBtn.classList.remove("hidden");
   arVideoFrame.setAttribute("visible", false);
@@ -356,6 +363,7 @@ function setPinViewUI() {
 function setArViewUI() {
   changeViewBtn.classList.remove("ar_view");
   pinVideoFrame.classList.add("hidden");
+  pinThumbnail.classList.add("hidden");
   playPinVideBtn.classList.add("hidden");
   openAllVideoViewBtn.classList.add("hidden");
   arVideoFrame.setAttribute("visible", true);
