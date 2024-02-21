@@ -6,7 +6,7 @@ const arVideoFrame = document.getElementById("videoFrame");
 // ピン止め用ビデオ要素
 const pinVideoFrame = document.getElementById("pinVideo");
 const pinThumbnail = document.getElementById("pinThumbnail");
-const playPinVideBtn = document.getElementById("playPinVideBtn");
+const playPinVideoBtn = document.getElementById("playPinVideoBtn");
 const openAllVideoViewBtn = document.getElementById("openAllVideoViewBtn");
 const closeAllVideoViewBtn = document.getElementById("closeAllVideoViewBtn");
 
@@ -223,7 +223,7 @@ changePreviousVideoBtn.addEventListener("click", () => {
 // 動画の変更処理
 function changeVideo(videoIndex) {
   pinThumbnail.classList.add("hidden");
-  playPinVideBtn.classList.add("hidden");
+  playPinVideoBtn.classList.add("hidden");
   getDownloadURL(contentsList[videoIndex].videoRef)
     .then((url) => {
       pinVideoFrame.src = url;
@@ -241,11 +241,13 @@ function changeVideo(videoIndex) {
 }
 
 // ピン状態の再生処理
-playPinVideBtn.addEventListener("click", () => {
+playPinVideoBtn.addEventListener("click", () => {
   pinThumbnail.classList.add("hidden");
   pinVideoFrame.play();
-  if(!deviceType==="IOS"){
-    playPinVideBtn.classList.add("hidden");
+  if(deviceType==="PC" || deviceType==="andoid"){
+    playPinVideoBtn.classList.add("hidden");
+  }else{
+    console.log(playPinVideoBtn.classList)
   }
 });
 
@@ -254,7 +256,7 @@ pinVideoFrame.addEventListener("loadedmetadata", () => {
   console.log("video metadata loaded");
   if (currentViewState === viewStates.isPinView && pinVideoFrame.paused) {
     pinThumbnail.classList.remove("hidden");
-    playPinVideBtn.classList.remove("hidden");
+    playPinVideoBtn.classList.remove("hidden");
   }
 });
 
@@ -263,7 +265,7 @@ pinVideoFrame.addEventListener("loadedmetadata", () => {
 pinVideoFrame.addEventListener("ended", function () {
   console.log("movie ended!");
   if (currentViewState === viewStates.isPinView && pinVideoFrame.paused) {
-    playPinVideBtn.classList.remove("hidden");
+    playPinVideoBtn.classList.remove("hidden");
   }
 });
 
@@ -355,7 +357,7 @@ function setPinViewUI() {
   changeViewBtn.classList.add("ar_view");
   pinVideoFrame.classList.remove("hidden");
   pinThumbnail.classList.remove("hidden");
-  playPinVideBtn.classList.remove("hidden");
+  playPinVideoBtn.classList.remove("hidden");
   openAllVideoViewBtn.classList.remove("hidden");
   arVideoFrame.setAttribute("visible", false);
 }
@@ -364,7 +366,7 @@ function setArViewUI() {
   changeViewBtn.classList.remove("ar_view");
   pinVideoFrame.classList.add("hidden");
   pinThumbnail.classList.add("hidden");
-  playPinVideBtn.classList.add("hidden");
+  playPinVideoBtn.classList.add("hidden");
   openAllVideoViewBtn.classList.add("hidden");
   arVideoFrame.setAttribute("visible", true);
   if (isFindMarker) {
