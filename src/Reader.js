@@ -42,10 +42,11 @@ arVideoFrame.setAttribute("visible", false);
 
 let url = new URL(window.location.href);
 let grade = url.searchParams.get("grade");
-let personal = url.searchParams.get("personal");
+let personal = url.searchParams.get("personals");
 
 // Debug用
 grade = grade == null ? "B4" : grade;
+grade = (grade == "M2") ? "M1" : grade;
 
 // URLからクエリパラメータを削除
 history.replaceState("", "", url.pathname);
@@ -143,11 +144,9 @@ if (personal != null) {
           // サムネイルURLの取得
           await getDownloadURL(thumbnailRef).then((url) => {
             thumbnailUrl = url
-            console.log("getDownloadURL");
           }).catch((error) => {
             console.error(`サムネイルURLの取得に失敗しました: ${error}`);
           });
-          console.log("getDownloadURLおーわり");
         });
         const content = { videoRef: videoRef, thumbnailRef: thumbnailRef, thumbnailUrl: thumbnailUrl};
         contentsList.push(content);
