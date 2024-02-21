@@ -243,7 +243,7 @@ function changeVideo(videoIndex) {
 playPinVideoBtn.addEventListener("click", () => {
   pinThumbnail.classList.add("hidden");
   pinVideoFrame.play();
-  if(deviceType==="PC" || deviceType==="andoid"){
+  if(deviceType==="PC" || deviceType==="android"){
     playPinVideoBtn.classList.add("hidden");
   }else{
     console.log(playPinVideoBtn.classList)
