@@ -10,8 +10,12 @@ const playPinVideoBtn = document.getElementById("playPinVideoBtn");
 const openAllVideoViewBtn = document.getElementById("openAllVideoViewBtn");
 const closeAllVideoViewBtn = document.getElementById("closeAllVideoViewBtn");
 
+const openExplanationViewBtn = document.getElementById("openExplanationViewBtn");
+const closeExplanationViewBtn = document.getElementById("closeExplanationViewBtn");
+
 const changeNextVideoBtn = document.getElementById("changeNextVideoBtn");
 const changePreviousVideoBtn = document.getElementById("changePreviousVideoBtn");
+
 // ビデオのview切り替えボタン
 const changeViewBtn = document.getElementById("changeViewBtn");
 
@@ -269,23 +273,34 @@ pinVideoFrame.addEventListener("ended", function () {
   }
 });
 
-const dialog = document.getElementById("dialog");
+const allVideoViewDialog = document.getElementById("allVideoViewDialog");
+const explanationViewDialog = document.getElementById("explanationViewDialog");
 
-openAllVideoViewBtn.addEventListener(
-  "click",
-  () => {
-    dialog.classList.remove("hidden_dialog");
+openAllVideoViewBtn.addEventListener("click",() => {
+    allVideoViewDialog.classList.remove("hidden_dialog");
   },
   false
 );
 
-closeAllVideoViewBtn.addEventListener(
-  "click",
-  () => {
-    dialog.classList.add("hidden_dialog");
+closeAllVideoViewBtn.addEventListener("click", () => {
+    allVideoViewDialog.classList.add("hidden_dialog");
   },
   false
 );
+
+openExplanationViewBtn.addEventListener("click", () => {
+    console.log("openExplanationViewBtn");
+    explanationViewDialog.classList.remove("hidden_dialog");
+  },
+  false
+);
+
+closeExplanationViewBtn.addEventListener("click", () => {
+    explanationViewDialog.classList.add("hidden_dialog");
+  },
+  false
+);
+
 
 // TODO:もっといいやり方あるかも
 // フラグ変化検知用のフラグ
@@ -391,7 +406,7 @@ function setAllViewThumbnail(theContentsList) {
       videoIndex = index;
       console.log("click:" + index);
       changeVideo(index);
-      dialog.classList.add("hidden_dialog");
+      allVideoViewDialog.classList.add("hidden_dialog");
     });
     const img = document.createElement("img");
     img.src = content.thumbnailUrl;
