@@ -272,7 +272,7 @@ const dialog = document.getElementById("dialog");
 openAllVideoViewBtn.addEventListener(
   "click",
   () => {
-    dialog.classList.add("inview");
+    dialog.classList.remove("hidden_dialog");
   },
   false
 );
@@ -280,7 +280,7 @@ openAllVideoViewBtn.addEventListener(
 closeAllVideoViewBtn.addEventListener(
   "click",
   () => {
-    dialog.classList.remove("inview");
+    dialog.classList.add("hidden_dialog");
   },
   false
 );
@@ -383,11 +383,13 @@ function setAllViewThumbnail(theContentsList) {
   theContentsList.forEach((content, index) => {
     const imgBtn = document.createElement("button");
     imgBtn.value = index;
+
+    // サムネイルクリック時のイベント
     imgBtn.addEventListener("click", () => {
       videoIndex = index;
       console.log("click:" + index);
       changeVideo(index);
-      dialog.classList.remove("inview");
+      dialog.classList.add("hidden_dialog");
     });
     const img = document.createElement("img");
     img.src = content.thumbnailUrl;
