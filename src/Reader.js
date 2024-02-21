@@ -10,11 +10,17 @@ const playPinVideoBtn = document.getElementById("playPinVideoBtn");
 const openAllVideoViewBtn = document.getElementById("openAllVideoViewBtn");
 const closeAllVideoViewBtn = document.getElementById("closeAllVideoViewBtn");
 
-const openExplanationViewBtn = document.getElementById("openExplanationViewBtn");
-const closeExplanationViewBtn = document.getElementById("closeExplanationViewBtn");
+const openExplanationViewBtn = document.getElementById(
+  "openExplanationViewBtn"
+);
+const closeExplanationViewBtn = document.getElementById(
+  "closeExplanationViewBtn"
+);
 
 const changeNextVideoBtn = document.getElementById("changeNextVideoBtn");
-const changePreviousVideoBtn = document.getElementById("changePreviousVideoBtn");
+const changePreviousVideoBtn = document.getElementById(
+  "changePreviousVideoBtn"
+);
 
 // ダイアログ
 const allVideoViewDialog = document.getElementById("allVideoViewDialog");
@@ -24,7 +30,6 @@ const explanationViewDialog = document.getElementById("explanationViewDialog");
 const changeViewBtn = document.getElementById("changeViewBtn");
 const guideUi = document.getElementById("guideUi");
 const firstPlayVideoBtn = document.getElementById("playVideoBtn");
-
 
 // TODO:もっといいやり方あるかも
 // フラグ変化検知用のフラグ
@@ -61,50 +66,49 @@ let personal = url.searchParams.get("personals");
 
 // Debug用
 grade = grade == null ? "B4" : grade;
-grade = (grade == "M2") ? "M1" : grade;
+grade = grade == "M2" ? "M1" : grade;
 
 // URLからクエリパラメータを削除
 // history.replaceState("", "", url.pathname);
 
 // 異なるプラットフォームに対応した位置調整
 function adjustPositionForPlatform() {
-  var thumbnailText = document.getElementById('thumbnailText');
-  var giftBox = document.getElementById('gift_box');
-  var videoFrame = document.getElementById('videoFrame');
+  var thumbnailText = document.getElementById("thumbnailText");
+  var giftBox = document.getElementById("gift_box");
+  var videoFrame = document.getElementById("videoFrame");
 
   var screenWidth = window.innerWidth;
   var screenHeight = window.innerHeight;
-  console.log("画面サイズ：", screenWidth, screenHeight)
+  console.log("画面サイズ：", screenWidth, screenHeight);
 
   // iOSの場合の位置調整
   if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
-      console.log("IOS");
-      deviceType = "IOS";
-      thumbnailText.setAttribute('position', '50 -132 -50');
-      giftBox.setAttribute('position', '180 -130 120');
-      videoFrame.setAttribute('position', '180 55 150');
-    }
-    // Androidの場合の位置調整
+    console.log("IOS");
+    deviceType = "IOS";
+    thumbnailText.setAttribute("position", "50 -132 -50");
+    giftBox.setAttribute("position", "180 -130 120");
+    videoFrame.setAttribute("position", "180 55 150");
+  }
+  // Androidの場合の位置調整
   else if (/Android/.test(navigator.userAgent)) {
-      console.log("android OS");
-      deviceType = "android";
-      thumbnailText.setAttribute('position', '20 2 -400');
-      giftBox.setAttribute('position', '150 100 -200');
-      videoFrame.setAttribute('position', '150 155 -300');
+    console.log("android OS");
+    deviceType = "android";
+    thumbnailText.setAttribute("position", "20 2 -400");
+    giftBox.setAttribute("position", "150 100 -200");
+    videoFrame.setAttribute("position", "150 155 -300");
   }
   // それ以外（PCなど）の場合の位置調整
   else {
-      console.log("else OS");
-      deviceType = "PC";
-      thumbnailText.setAttribute('position', '150 2 -250');
-      giftBox.setAttribute('position', '300 100 -100');
-      videoFrame.setAttribute('position', '300 105 -100');
+    console.log("else OS");
+    deviceType = "PC";
+    thumbnailText.setAttribute("position", "150 2 -250");
+    giftBox.setAttribute("position", "300 100 -100");
+    videoFrame.setAttribute("position", "300 105 -100");
   }
 }
 
 // ページ読み込み時に位置調整を行う
 window.onload = adjustPositionForPlatform;
-
 
 let contentsList = [];
 let videoIndex = 0;
@@ -112,11 +116,11 @@ const listRef = ref(storage, "videos/" + grade);
 await listAll(listRef)
   .then(async (res) => {
     const prefixes = res.prefixes;
-    for(const prefix of prefixes) {
-      let thumbnailRef, videoRef,thumbnailUrl;
+    for (const prefix of prefixes) {
+      let thumbnailRef, videoRef, thumbnailUrl;
       await listAll(prefix).then(async (result) => {
         // 動画とサムネイルの参照を取得
-        for(const fileRef of result.items) {
+        for (const fileRef of result.items) {
           let fileType = fileRef.name.split(".").pop();
           if (fileType === "mp4") {
             videoRef = fileRef;
@@ -125,13 +129,19 @@ await listAll(listRef)
           }
         }
         // サムネイルURLの取得
-        await getDownloadURL(thumbnailRef).then((url) => {
-          thumbnailUrl = url
-        }).catch((error) => {
-          console.error(`サムネイルURLの取得に失敗しました: ${error}`);
-        });
+        await getDownloadURL(thumbnailRef)
+          .then((url) => {
+            thumbnailUrl = url;
+          })
+          .catch((error) => {
+            console.error(`サムネイルURLの取得に失敗しました: ${error}`);
+          });
       });
-      const content = { videoRef: videoRef, thumbnailRef: thumbnailRef, thumbnailUrl: thumbnailUrl};
+      const content = {
+        videoRef: videoRef,
+        thumbnailRef: thumbnailRef,
+        thumbnailUrl: thumbnailUrl,
+      };
       contentsList.push(content);
     }
     contentsList.sort(() => Math.random() - 0.5);
@@ -145,11 +155,11 @@ if (personal != null) {
   await listAll(personalListRef)
     .then(async (res) => {
       const prefixes = res.prefixes;
-      for(const prefix of prefixes) {
-        let thumbnailRef, videoRef,thumbnailUrl;
+      for (const prefix of prefixes) {
+        let thumbnailRef, videoRef, thumbnailUrl;
         await listAll(prefix).then(async (result) => {
           // 動画とサムネイルの参照を取得
-          for(const fileRef of result.items) {
+          for (const fileRef of result.items) {
             let fileType = fileRef.name.split(".").pop();
             if (fileType === "mp4") {
               videoRef = fileRef;
@@ -158,13 +168,19 @@ if (personal != null) {
             }
           }
           // サムネイルURLの取得
-          await getDownloadURL(thumbnailRef).then((url) => {
-            thumbnailUrl = url
-          }).catch((error) => {
-            console.error(`サムネイルURLの取得に失敗しました: ${error}`);
-          });
+          await getDownloadURL(thumbnailRef)
+            .then((url) => {
+              thumbnailUrl = url;
+            })
+            .catch((error) => {
+              console.error(`サムネイルURLの取得に失敗しました: ${error}`);
+            });
         });
-        const content = { videoRef: videoRef, thumbnailRef: thumbnailRef, thumbnailUrl: thumbnailUrl};
+        const content = {
+          videoRef: videoRef,
+          thumbnailRef: thumbnailRef,
+          thumbnailUrl: thumbnailUrl,
+        };
         contentsList.push(content);
       }
     })
@@ -176,8 +192,27 @@ if (personal != null) {
 // サムネイルの表示
 setAllViewThumbnail(contentsList);
 
+function setEvent() {
+  // 2本指でのピンチ操作を無効化
+  document.addEventListener(
+    "touchstart",
+    (e) => {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    },
+    { passive: false }
+  );
 
-function setEvent(){
+  // ダブルタップでの拡大縮小を無効化
+  document.addEventListener(
+    "dblclick",
+    function (e) {
+      e.preventDefault();
+    },
+    { passive: false }
+  );
+
   // ViewModeの切り替えボタン
   changeViewBtn.addEventListener("click", () => {
     // viewModeの切り替え
@@ -197,24 +232,24 @@ function setEvent(){
   });
 
   // marker発見時のイベント
-nft.addEventListener("markerFound", () => {
-  console.log("nft markerFound");
-  console.log(nft);
-  isFindMarker = true;
-  guideUi.classList.add("hidden");
-  clearTimeout(flagChangeTimeout);
-  if (currentViewState === viewStates.isArView) {
-    if (isOpenedPresent) {
-      changeNextVideoBtn.classList.toggle("hidden");
-      changePreviousVideoBtn.classList.toggle("hidden");
-      changeViewBtn.classList.toggle("hidden");
-      console.log("video.src:" + video.src);
-      video.play();
-    }else{
-      firstPlayVideoBtn.classList.remove("hidden")
+  nft.addEventListener("markerFound", () => {
+    console.log("nft markerFound");
+    console.log(nft);
+    isFindMarker = true;
+    guideUi.classList.add("hidden");
+    clearTimeout(flagChangeTimeout);
+    if (currentViewState === viewStates.isArView) {
+      if (isOpenedPresent) {
+        changeNextVideoBtn.classList.toggle("hidden");
+        changePreviousVideoBtn.classList.toggle("hidden");
+        changeViewBtn.classList.toggle("hidden");
+        console.log("video.src:" + video.src);
+        video.play();
+      } else {
+        firstPlayVideoBtn.classList.remove("hidden");
+      }
     }
-  }
-});
+  });
 
   // marker消失時のイベント
   nft.addEventListener("markerLost", () => {
@@ -239,10 +274,10 @@ nft.addEventListener("markerFound", () => {
   playPinVideoBtn.addEventListener("click", () => {
     pinThumbnail.classList.add("hidden");
     pinVideoFrame.play();
-    if(deviceType==="PC" || deviceType==="android"){
+    if (deviceType === "PC" || deviceType === "android") {
       playPinVideoBtn.classList.add("hidden");
-    }else{
-      console.log(playPinVideoBtn.classList)
+    } else {
+      console.log(playPinVideoBtn.classList);
     }
   });
 
@@ -255,7 +290,6 @@ nft.addEventListener("markerFound", () => {
     }
   });
 
-
   // ピン止め動画の再再生
   pinVideoFrame.addEventListener("ended", function () {
     console.log("movie ended!");
@@ -263,50 +297,56 @@ nft.addEventListener("markerFound", () => {
       playPinVideoBtn.classList.remove("hidden");
     }
   });
-  
+
   firstPlayVideoBtn.addEventListener("click", () => {
     handleTap();
   });
-  
+
   // 次の動画ボタン
   changeNextVideoBtn.addEventListener("click", () => {
     videoIndex = (videoIndex + 1) % contentsList.length;
     changeVideo(videoIndex);
   });
-  
+
   // 前の動画ボタン
   changePreviousVideoBtn.addEventListener("click", () => {
     videoIndex = (videoIndex - 1 + contentsList.length) % contentsList.length;
     changeVideo(videoIndex);
   });
 
-  openAllVideoViewBtn.addEventListener("click",() => {
-    allVideoViewDialog.classList.remove("hidden_dialog");
-  },
-  false
-);
+  openAllVideoViewBtn.addEventListener(
+    "click",
+    () => {
+      allVideoViewDialog.classList.remove("hidden_dialog");
+    },
+    false
+  );
 
-closeAllVideoViewBtn.addEventListener("click", () => {
-    allVideoViewDialog.classList.add("hidden_dialog");
-  },
-  false
-);
+  closeAllVideoViewBtn.addEventListener(
+    "click",
+    () => {
+      allVideoViewDialog.classList.add("hidden_dialog");
+    },
+    false
+  );
 
-openExplanationViewBtn.addEventListener("click", () => {
-    console.log("openExplanationViewBtn");
-    explanationViewDialog.classList.remove("hidden_dialog");
-  },
-  false
-);
+  openExplanationViewBtn.addEventListener(
+    "click",
+    () => {
+      console.log("openExplanationViewBtn");
+      explanationViewDialog.classList.remove("hidden_dialog");
+    },
+    false
+  );
 
-closeExplanationViewBtn.addEventListener("click", () => {
-    explanationViewDialog.classList.add("hidden_dialog");
-  },
-  false
-);
-
+  closeExplanationViewBtn.addEventListener(
+    "click",
+    () => {
+      explanationViewDialog.classList.add("hidden_dialog");
+    },
+    false
+  );
 }
-
 
 // 動画の変更処理
 function changeVideo(videoIndex) {
@@ -328,10 +368,6 @@ function changeVideo(videoIndex) {
     });
 }
 
-
-
-
-
 function checkFlagsAndRemoveHidden() {
   if (!isFindMarker && !isOpenedPresent) {
     guideUi.classList.remove("hidden");
@@ -341,8 +377,6 @@ function startFlagChangeTimeout() {
   // 5秒後にフラグが変化しなかったらガイドUIを表示
   flagChangeTimeout = setTimeout(checkFlagsAndRemoveHidden, 5000);
 }
-
-
 
 // PIN・AR状態の切り替え
 function changeViewMode() {
@@ -404,7 +438,6 @@ function setAllViewThumbnail(theContentsList) {
     allVideView.appendChild(imgBtn);
   });
 }
-
 
 // プレゼント開封で動画の再生開始
 function handleTap() {
