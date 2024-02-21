@@ -499,37 +499,53 @@
   left:0;
 }
 
+#explanationView {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  align-content: baseline;
+  justify-content: space-between;
+  overflow: scroll;
+}
+
 .explain_section{
-  padding: 0.8em;
+  padding: 0.5em;
   background-color: #FFF8F8;
 }
 
 .explain_section>p{
-  font-size: 2em;
+  font-size: 1.5em;
   color: #FF9E9E;
   font-style: bold;
   margin: 10px 0;
 }
 
 .explain_sample_btn{
-  width: 5em;
-  height: 5em;
+  width: 4em;
+  height: 4em;
   position: absolute;
 }
 
 .explain_sample_btn.ar_view::before{
   content: "AR"; 
   display: block;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
-  line-height: 5rem;
+  line-height: 4rem;
 }
 
 .how_to_use_section>.explain_container{
   background-color: #FFC3C3;
   border-radius: 0.5em;
   color: #fff;
-  font-size: 1.1em;
+  font-size: 1em;
+  margin:0;
+}
+
+.how_to_use_section>.explain_container>p{
+  margin:0;
 }
 
 .how_to_use_section>.explain_container>div{
@@ -560,12 +576,12 @@
 }
 .explain_btn_wrapper>p{
   color: #fff;
-  font-size: 1.1em;
+  font-size: 1em;
   margin: 0;
 }
 
 .explain_btn_card>p{
   color: #fff;
-  font-size: 1.4em;
+  font-size: 1em;
   margin: 0;
 }
