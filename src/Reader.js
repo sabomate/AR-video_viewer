@@ -16,12 +16,21 @@ const closeExplanationViewBtn = document.getElementById("closeExplanationViewBtn
 const changeNextVideoBtn = document.getElementById("changeNextVideoBtn");
 const changePreviousVideoBtn = document.getElementById("changePreviousVideoBtn");
 
+// ダイアログ
+const allVideoViewDialog = document.getElementById("allVideoViewDialog");
+const explanationViewDialog = document.getElementById("explanationViewDialog");
+
 // ビデオのview切り替えボタン
 const changeViewBtn = document.getElementById("changeViewBtn");
-
 const guideUi = document.getElementById("guideUi");
-
 const firstPlayVideoBtn = document.getElementById("playVideoBtn");
+
+
+// TODO:もっといいやり方あるかも
+// フラグ変化検知用のフラグ
+let flagChangeTimeout;
+
+const nft = document.getElementById("nft");
 
 // 状態列挙
 const viewStates = {
@@ -43,6 +52,8 @@ let currentViewState = viewStates.isArView;
 setArViewUI();
 arVideoFrame.setAttribute("visible", false);
 
+// 各エレメントにevent定義する
+setEvent();
 
 let url = new URL(window.location.href);
 let grade = url.searchParams.get("grade");
@@ -166,117 +177,110 @@ if (personal != null) {
 setAllViewThumbnail(contentsList);
 
 
-// ViewModeの切り替えボタン
-changeViewBtn.addEventListener("click", () => {
-  // viewModeの切り替え
-  changeViewMode();
+function setEvent(){
+  // ViewModeの切り替えボタン
+  changeViewBtn.addEventListener("click", () => {
+    // viewModeの切り替え
+    changeViewMode();
 
-  // 表示されている方を再生する
-  if (currentViewState === viewStates.isPinView) {
-    // Pin
-    video.pause();
-    console.log("pin video on");
-  } else {
-    // AR
-    pinVideoFrame.pause();
-    if (isFindMarker) video.play();
-    console.log("ar video on");
-  }
-});
+    // 表示されている方を再生する
+    if (currentViewState === viewStates.isPinView) {
+      // Pin
+      video.pause();
+      console.log("pin video on");
+    } else {
+      // AR
+      pinVideoFrame.pause();
+      if (isFindMarker) video.play();
+      console.log("ar video on");
+    }
+  });
 
-// プレゼント開封で動画の再生開始
-function handleTap() {
-  if (!isOpenedPresent && isFindMarker) {
-    document.getElementById("thumbnailText").setAttribute("visible", false);
-    document.getElementById("gift_box").setAttribute("visible", false);
-    document.getElementById("videoFrame").setAttribute("visible", true);
-    changeNextVideoBtn.classList.toggle("hidden");
-    changePreviousVideoBtn.classList.toggle("hidden");
-    changeViewBtn.classList.toggle("hidden");
-    firstPlayVideoBtn.classList.toggle("hidden");
-    isOpenedPresent = true;
-    getDownloadURL(contentsList[videoIndex].videoRef).then((url) => {
-      console.log("set url:" + url);
-      pinVideoFrame.src = url;
-      pinThumbnail.src = contentsList[videoIndex].thumbnailUrl;
-      video.src = url;
-      // TODO: 時々DOMExceptionエラーが発生する 再現方法不明
-      // TODO: IOSでは自動再生されない
+  // marker発見時のイベント
+nft.addEventListener("markerFound", () => {
+  console.log("nft markerFound");
+  console.log(nft);
+  isFindMarker = true;
+  guideUi.classList.add("hidden");
+  clearTimeout(flagChangeTimeout);
+  if (currentViewState === viewStates.isArView) {
+    if (isOpenedPresent) {
+      changeNextVideoBtn.classList.toggle("hidden");
+      changePreviousVideoBtn.classList.toggle("hidden");
+      changeViewBtn.classList.toggle("hidden");
+      console.log("video.src:" + video.src);
       video.play();
-    });
+    }else{
+      firstPlayVideoBtn.classList.remove("hidden")
+    }
   }
-}
-
-firstPlayVideoBtn.addEventListener("click", () => {
-  handleTap();
 });
 
+  // marker消失時のイベント
+  nft.addEventListener("markerLost", () => {
+    isFindMarker = false;
+    console.log("nft markerLost");
+    console.log(nft);
+    if (currentViewState === viewStates.isArView) {
+      video.pause();
+      pinVideoFrame.pause();
 
-// 次の動画ボタン
-changeNextVideoBtn.addEventListener("click", () => {
-  videoIndex = (videoIndex + 1) % contentsList.length;
-  changeVideo(videoIndex);
-});
-
-// 前の動画ボタン
-changePreviousVideoBtn.addEventListener("click", () => {
-  videoIndex = (videoIndex - 1 + contentsList.length) % contentsList.length;
-  changeVideo(videoIndex);
-});
-
-// 動画の変更処理
-function changeVideo(videoIndex) {
-  pinThumbnail.classList.add("hidden");
-  playPinVideoBtn.classList.add("hidden");
-  getDownloadURL(contentsList[videoIndex].videoRef)
-    .then((url) => {
-      pinVideoFrame.src = url;
-      pinThumbnail.src = contentsList[videoIndex].thumbnailUrl;
-      video.src = url;
-      // 表示されている方を再生する
-      if (currentViewState === viewStates.isArView) {
-        video.play();
-        console.log("ar video on" + url);
+      if (isOpenedPresent) {
+        changeNextVideoBtn.classList.toggle("hidden");
+        changePreviousVideoBtn.classList.toggle("hidden");
+        changeViewBtn.classList.toggle("hidden");
+      } else {
+        startFlagChangeTimeout();
       }
-    })
-    .catch((error) => {
-      console.error(`動画URLの取得に失敗しました: ${error}`);
-    });
-}
+    }
+  });
 
-// ピン状態の再生処理
-playPinVideoBtn.addEventListener("click", () => {
-  pinThumbnail.classList.add("hidden");
-  pinVideoFrame.play();
-  if(deviceType==="PC" || deviceType==="android"){
-    playPinVideoBtn.classList.add("hidden");
-  }else{
-    console.log(playPinVideoBtn.classList)
-  }
-});
+  // ピン状態の再生処理
+  playPinVideoBtn.addEventListener("click", () => {
+    pinThumbnail.classList.add("hidden");
+    pinVideoFrame.play();
+    if(deviceType==="PC" || deviceType==="android"){
+      playPinVideoBtn.classList.add("hidden");
+    }else{
+      console.log(playPinVideoBtn.classList)
+    }
+  });
 
-// ピン止め動画変更時のボタン表示
-pinVideoFrame.addEventListener("loadedmetadata", () => {
-  console.log("video metadata loaded");
-  if (currentViewState === viewStates.isPinView && pinVideoFrame.paused) {
-    pinThumbnail.classList.remove("hidden");
-    playPinVideoBtn.classList.remove("hidden");
-  }
-});
+  // ピン止め動画変更時のボタン表示
+  pinVideoFrame.addEventListener("loadedmetadata", () => {
+    console.log("video metadata loaded");
+    if (currentViewState === viewStates.isPinView && pinVideoFrame.paused) {
+      pinThumbnail.classList.remove("hidden");
+      playPinVideoBtn.classList.remove("hidden");
+    }
+  });
 
 
-// ピン止め動画の再再生
-pinVideoFrame.addEventListener("ended", function () {
-  console.log("movie ended!");
-  if (currentViewState === viewStates.isPinView && pinVideoFrame.paused) {
-    playPinVideoBtn.classList.remove("hidden");
-  }
-});
+  // ピン止め動画の再再生
+  pinVideoFrame.addEventListener("ended", function () {
+    console.log("movie ended!");
+    if (currentViewState === viewStates.isPinView && pinVideoFrame.paused) {
+      playPinVideoBtn.classList.remove("hidden");
+    }
+  });
+  
+  firstPlayVideoBtn.addEventListener("click", () => {
+    handleTap();
+  });
+  
+  // 次の動画ボタン
+  changeNextVideoBtn.addEventListener("click", () => {
+    videoIndex = (videoIndex + 1) % contentsList.length;
+    changeVideo(videoIndex);
+  });
+  
+  // 前の動画ボタン
+  changePreviousVideoBtn.addEventListener("click", () => {
+    videoIndex = (videoIndex - 1 + contentsList.length) % contentsList.length;
+    changeVideo(videoIndex);
+  });
 
-const allVideoViewDialog = document.getElementById("allVideoViewDialog");
-const explanationViewDialog = document.getElementById("explanationViewDialog");
-
-openAllVideoViewBtn.addEventListener("click",() => {
+  openAllVideoViewBtn.addEventListener("click",() => {
     allVideoViewDialog.classList.remove("hidden_dialog");
   },
   false
@@ -301,30 +305,32 @@ closeExplanationViewBtn.addEventListener("click", () => {
   false
 );
 
+}
 
-// TODO:もっといいやり方あるかも
-// フラグ変化検知用のフラグ
-let flagChangeTimeout;
 
-const nft = document.getElementById("nft");
-// marker発見時のイベント
-nft.addEventListener("markerFound", () => {
-  console.log("nft markerFound");
-  isFindMarker = true;
-  guideUi.classList.add("hidden");
-  clearTimeout(flagChangeTimeout);
-  if (currentViewState === viewStates.isArView) {
-    if (isOpenedPresent) {
-      changeNextVideoBtn.classList.toggle("hidden");
-      changePreviousVideoBtn.classList.toggle("hidden");
-      changeViewBtn.classList.toggle("hidden");
-      console.log("video.src:" + video.src);
-      video.play();
-    }else{
-      firstPlayVideoBtn.classList.remove("hidden")
-    }
-  }
-});
+// 動画の変更処理
+function changeVideo(videoIndex) {
+  pinThumbnail.classList.add("hidden");
+  playPinVideoBtn.classList.add("hidden");
+  getDownloadURL(contentsList[videoIndex].videoRef)
+    .then((url) => {
+      pinVideoFrame.src = url;
+      pinThumbnail.src = contentsList[videoIndex].thumbnailUrl;
+      video.src = url;
+      // 表示されている方を再生する
+      if (currentViewState === viewStates.isArView) {
+        video.play();
+        console.log("ar video on" + url);
+      }
+    })
+    .catch((error) => {
+      console.error(`動画URLの取得に失敗しました: ${error}`);
+    });
+}
+
+
+
+
 
 function checkFlagsAndRemoveHidden() {
   if (!isFindMarker && !isOpenedPresent) {
@@ -336,23 +342,7 @@ function startFlagChangeTimeout() {
   flagChangeTimeout = setTimeout(checkFlagsAndRemoveHidden, 5000);
 }
 
-// marker消失時のイベント
-nft.addEventListener("markerLost", () => {
-  isFindMarker = false;
-  if (currentViewState === viewStates.isArView) {
-    console.log("nft markerLost");
-    video.pause();
-    pinVideoFrame.pause();
 
-    if (isOpenedPresent) {
-      changeNextVideoBtn.classList.toggle("hidden");
-      changePreviousVideoBtn.classList.toggle("hidden");
-      changeViewBtn.classList.toggle("hidden");
-    } else {
-      startFlagChangeTimeout();
-    }
-  }
-});
 
 // PIN・AR状態の切り替え
 function changeViewMode() {
@@ -413,4 +403,28 @@ function setAllViewThumbnail(theContentsList) {
     imgBtn.appendChild(img);
     allVideView.appendChild(imgBtn);
   });
+}
+
+
+// プレゼント開封で動画の再生開始
+function handleTap() {
+  if (!isOpenedPresent && isFindMarker) {
+    document.getElementById("thumbnailText").setAttribute("visible", false);
+    document.getElementById("gift_box").setAttribute("visible", false);
+    document.getElementById("videoFrame").setAttribute("visible", true);
+    changeNextVideoBtn.classList.toggle("hidden");
+    changePreviousVideoBtn.classList.toggle("hidden");
+    changeViewBtn.classList.toggle("hidden");
+    firstPlayVideoBtn.classList.toggle("hidden");
+    isOpenedPresent = true;
+    getDownloadURL(contentsList[videoIndex].videoRef).then((url) => {
+      console.log("set url:" + url);
+      pinVideoFrame.src = url;
+      pinThumbnail.src = contentsList[videoIndex].thumbnailUrl;
+      video.src = url;
+      // TODO: 時々DOMExceptionエラーが発生する 再現方法不明
+      // TODO: IOSでは自動再生されない
+      video.play();
+    });
+  }
 }
