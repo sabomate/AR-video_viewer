@@ -49,7 +49,7 @@ grade = grade == null ? "B4" : grade;
 grade = (grade == "M2") ? "M1" : grade;
 
 // URLからクエリパラメータを削除
-history.replaceState("", "", url.pathname);
+// history.replaceState("", "", url.pathname);
 
 // 異なるプラットフォームに対応した位置調整
 function adjustPositionForPlatform() {
