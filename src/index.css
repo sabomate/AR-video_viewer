@@ -1,9 +1,13 @@
+body {
+  touch-action: manipulation;
+}
+
 .hidden {
   display: none;
 }
 
 /* ボタンデザイン */
-.btn{
+.btn {
   position: absolute;
   width: 6em;
   height: 6em;
@@ -20,7 +24,6 @@
   }
 }
 
-
 /* ======================================== */
 /* ロード画面 */
 /* ======================================== */
@@ -31,14 +34,14 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #FFE7E7;
+  background-color: #ffe7e7;
   z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.main-logo{
+.main-logo {
   width: 15em;
   height: 15em;
   background: white;
@@ -48,11 +51,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);  border: #fff 0.6em solid;
+  -ms-transform: translate(-50%, -50%);
+  border: #fff 0.6em solid;
 }
-.main-logo::after{
-  content: '';
-  border: #FFE7E7 0.3em solid;
+.main-logo::after {
+  content: "";
+  border: #ffe7e7 0.3em solid;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -78,16 +82,16 @@
   animation: spin 1.2s linear infinite;
 }
 
-@keyframes spin{
-  0%{
+@keyframes spin {
+  0% {
     transform: translate(-50%, -50%);
   }
-  100%{
+  100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-.icon{
+.icon {
   position: absolute;
   top: 40%;
   left: 50%;
@@ -95,13 +99,13 @@
   width: 10em;
   height: 10em;
 }
-.icon img{
+.icon img {
   width: 100%;
   height: 100%;
 }
 
 .main-logo .product-name {
-  color: #E56B6B;
+  color: #e56b6b;
   position: absolute;
   top: 65%;
   left: 57%;
@@ -135,48 +139,47 @@
   height: 2em;
 }
 
-.loading-text{
+.loading-text {
   position: absolute;
   top: 55%;
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.2em;
-  color: #E56B6B;
+  color: #e56b6b;
   font-weight: 600;
   font-family: "Yomogi", cursive; /* フォントファミリーを指定 */
   font-style: normal;
 }
 
-.copy-text{
+.copy-text {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
 }
 
-
 /* ======================================== */
 /* 認識待機画面 */
 /* ======================================== */
-#guideUi{
+#guideUi {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #FFE7E7;
+  background-color: #ffe7e7;
   background-color: rgba(245, 219, 219, 0.3);
 }
 
-.sakura-top{
+.sakura-top {
   position: absolute;
   top: 0;
-  right:0;
+  right: 0;
   opacity: 100%;
   transform: scale(-1, 1);
 }
 
-.sakura-bottom{
+.sakura-bottom {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -184,7 +187,7 @@
   transform: scale(1, -1);
 }
 
-.guide{
+.guide {
   position: relative;
   top: 50%;
   left: 50%;
@@ -201,16 +204,16 @@
   top: 10%;
   left: 50%;
   transform: translateX(-50%);
-  width:100%;
+  width: 100%;
   color: #fff;
   font-size: 1.3em;
   font-style: bold;
   text-shadow: 1px 1px 1px #888;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   text-align: center;
 }
 
-.frame-img{
+.frame-img {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -221,7 +224,7 @@
   opacity: 100%;
 }
 
-.frame-img img{
+.frame-img img {
   width: 100%;
   height: 100%;
 }
@@ -272,7 +275,6 @@
   pointer-events: none;
 }
 
-
 .video_change {
   bottom: 10px;
   transform: translateY(-50%);
@@ -321,7 +323,7 @@
 .change_button {
   top: 10px;
   right: 10px; /* 右上に配置 */
-  background: url('img/pin_white.png') center/contain no-repeat; /* ピンのイラストのパスを指定 */
+  background: url("img/pin_white.png") center/contain no-repeat; /* ピンのイラストのパスを指定 */
   background-color: rgba(255, 231, 231, 0.7);
   background-size: 50%;
   z-index: 100;
@@ -335,7 +337,7 @@
 }
 
 #changeViewBtn.ar_view::before {
-  content: "AR"; 
+  content: "AR";
   font-size: 32px;
   font-weight: bold;
   position: absolute; /* 絶対位置指定 */
@@ -343,7 +345,6 @@
   left: 50%; /* 左端を中央に */
   transform: translate(-50%, -50%); /* 中央揃え */
 }
-
 
 /* 固定後の動画フレーム */
 .pin_video {
@@ -357,7 +358,7 @@
   overflow: hidden;
 }
 
-.pin_video_play_btn{
+.pin_video_play_btn {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -376,27 +377,26 @@
   max-width: 600px; /* 任意の最大横幅を指定 */
   aspect-ratio: 9 / 16; /* 縦横比を縦長に保つための設定 */
   overflow: hidden;
-  z-index:50;
+  z-index: 50;
 }
-
 
 /* ======================================== */
 /* 一覧表示 */
 /* ======================================== */
 
 /* 一覧表示ボタン */
-.all_video_btn{
+.all_video_btn {
   position: absolute;
   bottom: 10px;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: url('img/all_video_btn_icon.png') center/contain no-repeat;
+  background: url("img/all_video_btn_icon.png") center/contain no-repeat;
   background-color: rgba(255, 231, 231, 0.7);
   background-size: 50%;
   &:hover {
-      cursor: pointer;
-      color: #fefefe;
-    }
+    cursor: pointer;
+    color: #fefefe;
+  }
 }
 
 .dialog {
@@ -414,7 +414,7 @@
   visibility: visible;
 }
 
-.dialog.hidden_dialog{
+.dialog.hidden_dialog {
   visibility: hidden;
   opacity: 0;
   transition: 0.5s;
@@ -432,7 +432,7 @@
   border: none;
   border-radius: 0.5rem;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  background-color: #FFF8F8;
+  background-color: #fff8f8;
   z-index: 800;
 }
 
@@ -440,13 +440,13 @@
   position: absolute;
   top: 1.5em;
   right: 1.5em;
-  
-  background: url('img/close_icon.png') center/contain no-repeat;
+
+  background: url("img/close_icon.png") center/contain no-repeat;
   background-color: rgba(255, 231, 231, 1);
   background-size: 50%;
   transition: color 0.3s, background-color 0.3s;
 }
-#allVideoView{
+#allVideoView {
   width: 100%;
   height: 100%;
   display: flex;
@@ -457,17 +457,17 @@
   overflow: scroll;
 }
 
-#allVideoView button{
+#allVideoView button {
   background-color: transparent;
   border: none;
   cursor: pointer;
   outline: none;
   padding: 0;
   appearance: none;
-  width:32%;
+  width: 32%;
 }
 
-#allVideoView img{
+#allVideoView img {
   width: 100%;
 }
 
@@ -480,7 +480,7 @@
 /* ======================================== */
 /* 説明画面 */
 /* ======================================== */
-.explain_btn{
+.explain_btn {
   top: 10px;
   left: 10px;
 }
@@ -496,11 +496,10 @@
   transform: translate(-50%, -50%); /* 中央揃え */
 }
 
-
-.dialog_sakura{
+.dialog_sakura {
   position: absolute;
   top: 0;
-  left:0;
+  left: 0;
 }
 
 #explanationView {
@@ -514,77 +513,77 @@
   overflow: scroll;
 }
 
-.explain_section{
+.explain_section {
   padding: 0.5em;
-  background-color: #FFF8F8;
+  background-color: #fff8f8;
 }
 
-.explain_section>p{
+.explain_section > p {
   font-size: 1.5em;
-  color: #FF9E9E;
+  color: #ff9e9e;
   font-style: bold;
   margin: 10px 0;
 }
 
-.explain_sample_btn{
+.explain_sample_btn {
   width: 4em;
   height: 4em;
   position: absolute;
 }
 
-.explain_sample_btn.ar_view::before{
-  content: "AR"; 
+.explain_sample_btn.ar_view::before {
+  content: "AR";
   display: block;
   font-size: 24px;
   font-weight: bold;
   line-height: 4rem;
 }
 
-.how_to_use_section>.explain_container{
-  background-color: #FFC3C3;
+.how_to_use_section > .explain_container {
+  background-color: #ffc3c3;
   border-radius: 0.5em;
-  color: #fff;
-  font-size: 1em;
-  margin:0;
-}
-
-.how_to_use_section>.explain_container>p{
-  margin:0;
-}
-
-.how_to_use_section>.explain_container>div{
-  width: 200px;
-  margin: 0 auto;
-}
-
-.explain_container{
-  padding: 0.7em;
-  border-radius: 0.5em;
-}
-
-.explain_btn_card{
-  background-color: #FFC3C3;
-  display: flex;
-  align-items: center;
-  border-radius: 0.5em;
-  margin-bottom: 10px;
-}
-.explain_btn_wrapper{
-  width: 30%;
-  padding: 1em;
-}
-.explain_btn_wrapper>div{
-  position: static;
-  transform: none;
-  margin: 0 auto;
-}
-.explain_btn_wrapper>p{
   color: #fff;
   font-size: 1em;
   margin: 0;
 }
 
-.explain_btn_card>p{
+.how_to_use_section > .explain_container > p {
+  margin: 0;
+}
+
+.how_to_use_section > .explain_container > div {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.explain_container {
+  padding: 0.7em;
+  border-radius: 0.5em;
+}
+
+.explain_btn_card {
+  background-color: #ffc3c3;
+  display: flex;
+  align-items: center;
+  border-radius: 0.5em;
+  margin-bottom: 10px;
+}
+.explain_btn_wrapper {
+  width: 30%;
+  padding: 1em;
+}
+.explain_btn_wrapper > div {
+  position: static;
+  transform: none;
+  margin: 0 auto;
+}
+.explain_btn_wrapper > p {
+  color: #fff;
+  font-size: 1em;
+  margin: 0;
+}
+
+.explain_btn_card > p {
   color: #fff;
   font-size: 1em;
   margin: 0;
