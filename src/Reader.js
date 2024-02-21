@@ -184,6 +184,7 @@ function handleTap() {
     changeNextVideoBtn.classList.toggle("hidden");
     changePreviousVideoBtn.classList.toggle("hidden");
     changeViewBtn.classList.toggle("hidden");
+    firstPlayVideoBtn.classList.toggle("hidden");
     isOpenedPresent = true;
     getDownloadURL(contentsList[videoIndex].videoRef).then((url) => {
       console.log("set url:" + url);
@@ -282,7 +283,6 @@ nft.addEventListener("markerFound", () => {
   isFindMarker = true;
   clearTimeout(flagChangeTimeout);
   guideUi.classList.add("hidden");
-  firstPlayVideoBtn.classList.remove("hidden")
   if (currentViewState === viewStates.isArView) {
     if (isOpenedPresent) {
       changeNextVideoBtn.classList.toggle("hidden");
@@ -290,6 +290,8 @@ nft.addEventListener("markerFound", () => {
       changeViewBtn.classList.toggle("hidden");
       console.log("video.src:" + video.src);
       video.play();
+    }else{
+      firstPlayVideoBtn.classList.remove("hidden")
     }
   }
 });
