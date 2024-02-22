@@ -67,7 +67,7 @@ function adjustPositionForPlatform() {
       console.log("IOS");
       deviceType = "IOS";
       thumnailText.setAttribute('position', '40 -132 -50');
-      navigateText.setAttribute('position', '130 -132 50');
+      navigateText.setAttribute('position', '140 -132 50');
       giftBox.setAttribute('position', '180 -430 120');
       videoFrame.setAttribute('position', '180 -105 150');
     }
@@ -75,8 +75,8 @@ function adjustPositionForPlatform() {
   else if (/Android/.test(navigator.userAgent)) {
       console.log("android OS");
       deviceType = "android";
-      thumnailText.setAttribute('position', '50 302 -250');
-      navigateText.setAttribute('position', '120 302 -150');
+      thumnailText.setAttribute('position', '45 302 -250');
+      navigateText.setAttribute('position', '115 302 -150');
       giftBox.setAttribute('position', '150 100 -200');
       videoFrame.setAttribute('position', '150 155 -300');
   }
