@@ -74,6 +74,7 @@ grade = grade == "M2" ? "M1" : grade;
 // 異なるプラットフォームに対応した位置調整
 function adjustPositionForPlatform() {
   var thumbnailText = document.getElementById("thumbnailText");
+  var navigateText = document.getElementById('navigateText');
   var giftBox = document.getElementById("gift_box");
   var videoFrame = document.getElementById("videoFrame");
 
@@ -85,23 +86,26 @@ function adjustPositionForPlatform() {
   if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
     console.log("IOS");
     deviceType = "IOS";
-    thumbnailText.setAttribute("position", "50 -132 -50");
-    giftBox.setAttribute("position", "180 -130 120");
-    videoFrame.setAttribute("position", "180 55 150");
+    thumbnailText.setAttribute("position", "40 -132 -50");
+      navigateText.setAttribute('position', '140 -132 50');
+    giftBox.setAttribute("position", "180 -430 120");
+    videoFrame.setAttribute("position", "180 -105 150");
   }
   // Androidの場合の位置調整
   else if (/Android/.test(navigator.userAgent)) {
-    console.log("android OS");
-    deviceType = "android";
-    thumbnailText.setAttribute("position", "20 2 -400");
-    giftBox.setAttribute("position", "150 100 -200");
-    videoFrame.setAttribute("position", "150 155 -300");
+      console.log("android OS");
+      deviceType = "android";
+      thumbnailText.setAttribute('position', '45 302 -250');
+      navigateText.setAttribute('position', '115 302 -150');
+      giftBox.setAttribute('position', '150 100 -200');
+      videoFrame.setAttribute('position', '150 155 -300');
   }
   // それ以外（PCなど）の場合の位置調整
   else {
     console.log("else OS");
     deviceType = "PC";
     thumbnailText.setAttribute("position", "150 2 -250");
+      navigateText.setAttribute('position', '250 100 0');
     giftBox.setAttribute("position", "300 100 -100");
     videoFrame.setAttribute("position", "300 105 -100");
   }
@@ -443,6 +447,7 @@ function setAllViewThumbnail(theContentsList) {
 function handleTap() {
   if (!isOpenedPresent && isFindMarker) {
     document.getElementById("thumbnailText").setAttribute("visible", false);
+    document.getElementById("navigateText").setAttribute("visible", false);
     document.getElementById("gift_box").setAttribute("visible", false);
     document.getElementById("videoFrame").setAttribute("visible", true);
     changeNextVideoBtn.classList.toggle("hidden");
